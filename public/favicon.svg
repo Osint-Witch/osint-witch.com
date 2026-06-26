@@ -6,6 +6,5 @@
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="#07060f"></rect>
-  <path d="M32 12 L50 22 L50 42 L32 52 L14 42 L14 22 Z" fill="none" stroke="url(#g)" stroke-width="4" stroke-linejoin="round"></path>
-  <circle cx="32" cy="32" r="6" fill="url(#g)"></circle>
+  <path d="M32,10 L44.93,49.80 L11.08,25.20 L52.92,25.20 L19.07,49.80 Z" fill="url(#g)" fill-rule="evenodd"/>
 </svg>
