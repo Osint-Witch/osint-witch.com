@@ -37,7 +37,7 @@ export const ui = {
     'toggle.tip': 'Trocar idioma do conteúdo',
     'sound.tip': 'Som da nuvem',
     'cloud.tip': 'me clica! ☁️',
-    'footer': 'feito com ☁️ por The OSINT W1tch · osint-witch.com · estático no GitHub Pages',
+    'footer': 'feito com ☁️ por OSINT W1tch · osint-witch.com · estático no GitHub Pages',
   },
   en: {
     'nav.home': 'Home',
@@ -63,7 +63,7 @@ export const ui = {
     'toggle.tip': 'Switch content language',
     'sound.tip': 'Cloud sound',
     'cloud.tip': 'click me! ☁️',
-    'footer': 'made with ☁️ by The OSINT W1tch · osint-witch.com · static on GitHub Pages',
+    'footer': 'made with ☁️ by OSINT W1tch · osint-witch.com · static on GitHub Pages',
   },
 } as const;
 
