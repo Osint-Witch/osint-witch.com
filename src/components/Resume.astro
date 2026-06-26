@@ -21,13 +21,11 @@ const t = useTranslations(lang);
   <!-- HERO -->
   <section class="hero">
     <div>
-      <div class="badge"><span class="badge-dot"></span>{cv.available}</div>
       <h1 class="hero-name">{cv.name}</h1>
       <p class="hero-tag">{cv.tagline}</p>
       <p class="hero-blurb">{cv.heroBlurb}</p>
       <div class="hero-actions">
         <a class="btn btn-primary lift" href={blogHref}>{t('hero.readBlog')}</a>
-        <a class="btn btn-ghost lift" href={cv.cvFile} download>↓ {cv.downloadLabel}</a>
       </div>
     </div>
 
