@@ -23,7 +23,6 @@ const t = useTranslations(lang);
     <div>
       <div class="badge"><span class="badge-dot"></span>{cv.available}</div>
       <h1 class="hero-name">{cv.name}</h1>
-      <p class="hero-role">{cv.role}</p>
       <p class="hero-tag">{cv.tagline}</p>
       <p class="hero-blurb">{cv.heroBlurb}</p>
       <div class="hero-actions">
@@ -46,36 +45,11 @@ const t = useTranslations(lang);
           <div><span class="c-cyan">{cv.name}</span></div>
           <div><span class="c-prompt">$</span> cat role.txt</div>
           <div><span class="c-lilac">{cv.role}</span></div>
-          <div><span class="c-prompt">$</span> location --now</div>
-          <div><span class="c-pink">{cv.location}</span></div>
           <div><span class="c-prompt">$</span> uptime --years</div>
           <div><span class="c-yellow">{cv.years}</span><span class="term-cursor">&nbsp;</span></div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- SOBRE -->
-  <section class="section">
-    <div class="kicker tight">// {t('section.about')}</div>
-    {cv.about.map((p) => <p class="lead">{p}</p>)}
-  </section>
-
-  <!-- EXPERIENCIA -->
-  <section class="section">
-    <div class="kicker">// {t('section.experience')}</div>
-    {cv.experience.map((job) => (
-      <div class="xp-item">
-        <div class="xp-period">{job.period}</div>
-        <div>
-          <h3 class="xp-role">{job.role}</h3>
-          <div class="xp-org">{job.org}</div>
-          {job.bullets.map((b) => (
-            <div class="xp-bullet"><span class="mk">▸</span><span>{b}</span></div>
-          ))}
-        </div>
-      </div>
-    ))}
   </section>
 
   <!-- SKILLS -->
