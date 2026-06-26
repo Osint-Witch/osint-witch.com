@@ -1,0 +1,77 @@
+{
+  "available": "aberta a trocas e colaborações",
+  "name": "OSINT W1tch",
+  "role": "Líder de Equipe Cyber Threat Intelligence @ FinTech",
+  "tagline": "#InfoHunter",
+  "location": "Brasil",
+  "years": "3+ anos em CTI · 5+ em segurança",
+  "downloadLabel": "CV (PDF)",
+  "cvFile": "/cv/cv-pt.pdf",
+  "heroBlurb": "Analista de Inteligência de Ameaças com experiência na liderança de equipes, criação e otimização de processos, resposta a incidentes de fraudes e riscos digitais, Takedown e condução de operações táticas, operacionais e estratégicas.",
+  "about": [
+    "Analista de Inteligência de Ameaças com experiência na liderança de equipes, criação e otimização de processos, resposta a incidentes de fraudes e riscos digitais e remoção de conteúdo corporativo ou fraudulento online (Takedown).",
+    "Conduzo operações táticas, operacionais e estratégicas de CTI em empresas do conglomerado do Instituição Financeira — do hunting OSINT à definição de estratégia e maturidade da equipe."
+  ],
+  "experience": [
+    {
+      "period": "set/2023 — atual",
+      "role": "Líder de Equipe Cyber Threat Intelligence",
+      "org": "Empresa de Tecnologia Financeira",
+      "bullets": [
+        "Criação e otimização de processos de CTI; definição de estratégia e maturidade da equipe.",
+        "Resposta a incidentes de riscos digitais e fraude, mitigação de ameaças e Takedown de conteúdo fraudulento.",
+        "Hunting OSINT e regras de monitoramento na surface, deep e dark web; planejamento de threat hunting (TaHiTI).",
+        "Treinamento de analistas e integração com SOC N1/N2, Antifraude e Red Team. Atende FinTech, subsidiária e beneficiária."
+      ]
+    },
+    {
+      "period": "set/2022 — set/2023",
+      "role": "Analista de Cibersegurança · SOC N2",
+      "org": "Empresa de Tecnologia Financeira",
+      "bullets": [
+        "Resposta a incidentes e monitoramento de alertas (SIEM, EDR, Antivírus).",
+        "Threat hunting interno e análise de logs com KQL (Kusto Query Language).",
+        "Criação de processos de SOC/IR, playbooks, relatórios e treinamento de novos analistas."
+      ]
+    },
+    {
+      "period": "mai/2022 — set/2022",
+      "role": "SOC N2 · N3 Forense · Módulo de Segurança",
+      "org": "Instituição Financeira",
+      "bullets": [
+        "Análise de phishing e fraude, apoio a takedown (N2).",
+        "Forense digital, correlação de logs, reconstrução de timeline e mapeamento de TTPs no MITRE ATT&CK (N3).",
+        "Atuação com módulo de segurança (módulo de segurança proprietário) e melhoria de regras de detecção."
+      ]
+    },
+    {
+      "period": "jan/2022 — mai/2022",
+      "role": "Red Team · Unidade Cyber e Prevenção a Fraude",
+      "org": "Instituição Financeira",
+      "bullets": [
+        "Suporte a testes de intrusão: reconhecimento, análise de vulnerabilidades e relatórios técnicos.",
+        "Aprendizado contínuo em técnicas de segurança ofensiva."
+      ]
+    }
+  ],
+  "skills": [
+    { "group": "Threat Intelligence", "icon": "◆", "items": ["OSINT", "Investigative Research", "Takedown", "Riscos Digitais", "Dark Web Monitoring"] },
+    { "group": "Threat Hunting", "icon": "◇", "items": ["TaHiTI", "KQL", "MITRE ATT&CK", "Análise de Logs"] },
+    { "group": "SOC & Resposta", "icon": "⬡", "items": ["SIEM", "EDR", "Incident Response", "Forense Digital", "Playbooks"] },
+    { "group": "Liderança", "icon": "⬢", "items": ["Gestão de equipe", "Processos de CTI", "Estratégia", "Treinamento"] }
+  ],
+  "certs": [
+    { "kind": "CERT", "name": "Certified Threat Intelligence & Governance Analyst (CTIGA)", "issuer": "Certificação" },
+    { "kind": "CERT", "name": "Trellix Protect Plus EDR for Endpoint", "issuer": "Trellix" },
+    { "kind": "FORMAÇÃO", "name": "CST em Segurança da Informação", "issuer": "Universidade · 2021–2023" },
+    { "kind": "CERT", "name": "Introdução à Cibersegurança", "issuer": "Learning Path" },
+    { "kind": "CERT", "name": "Estrutura e Funcionamento das Redes", "issuer": "Learning Path" },
+    { "kind": "FORMAÇÃO", "name": "CST em Gestão de Recursos Humanos", "issuer": "Faculdade · 2014–2016" }
+  ],
+  "contactTitle": "Vamos trocar sobre threat intel?",
+  "contactBlurb": "Aberta a colaborações, papos sobre CTI, threat hunting e OSINT.",
+  "contacts": [
+    { "icon": "✉", "label": "hello@osint-witch.com", "href": "mailto:hello@osint-witch.com" },
+    { "icon": "in", "label": "osint-witch.com", "href": "https://osint-witch.com" }
+  ]
+}

@@ -10,11 +10,12 @@ interface Props {
   title: string;
   description?: string;
   active?: 'home' | 'blog';
+  noindex?: boolean;
   /** destino do toggle em cada idioma; null = versao indisponivel */
   ptHref: string | null;
   enHref: string | null;
 }
-const { lang, title, description = '', active = 'home', ptHref, enHref } = Astro.props;
+const { lang, title, description = '', active = 'home', noindex = false, ptHref, enHref } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,6 +26,7 @@ const { lang, title, description = '', active = 'home', ptHref, enHref } = Astro
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

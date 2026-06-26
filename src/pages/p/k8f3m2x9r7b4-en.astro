@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import Resume from '../../components/Resume.astro';
+import cv from '../../data/cv-real.en.json';
+import { localizedPath } from '../../i18n/ui';
+---
+
+<Base
+  lang="en"
+  active="home"
+  title="Resume"
+  description={cv.heroBlurb}
+  noindex={true}
+  ptHref={`/p/k8f3m2x9r7b4`}
+  enHref={null}
+>
+  <Resume lang="en" cv={cv} blogHref={localizedPath('en', 'blog')} />
+</Base>
