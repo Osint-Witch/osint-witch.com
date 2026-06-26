@@ -14,7 +14,7 @@ const t = useTranslations(lang);
 ---
 
 <article class="article">
-  <a class="back-link" href={localizedPath(lang, 'blog')}>{t('post.back')}</a>
+  <a class="back-link" href={localizedPath(lang, '')}>{t('post.back')}</a>
 
   <div class="tags-row">
     {post.data.tags.map((tg) => <span class="post-tag">#{tg}</span>)}
