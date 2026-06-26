@@ -1,0 +1,123 @@
+---
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface CVContact { icon: string; label: string; href: string; }
+interface CVJob { period: string; role: string; org: string; bullets: string[]; }
+interface CVSkill { group: string; icon: string; items: string[]; }
+interface CVCert { kind: string; name: string; issuer: string; }
+interface CV {
+  available: string; name: string; role: string; tagline: string;
+  location: string; years: string; downloadLabel: string; cvFile: string;
+  heroBlurb: string; about: string[]; experience: CVJob[]; skills: CVSkill[];
+  certs: CVCert[]; contactTitle: string; contactBlurb: string; contacts: CVContact[];
+}
+
+interface Props { lang: Lang; cv: CV; blogHref: string; }
+const { lang, cv, blogHref } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<main class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="badge"><span class="badge-dot"></span>{cv.available}</div>
+      <h1 class="hero-name">{cv.name}</h1>
+      <p class="hero-role">{cv.role}</p>
+      <p class="hero-tag">{cv.tagline}</p>
+      <p class="hero-blurb">{cv.heroBlurb}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary lift" href={blogHref}>{t('hero.readBlog')}</a>
+        <a class="btn btn-ghost lift" href={cv.cvFile} download>↓ {cv.downloadLabel}</a>
+      </div>
+    </div>
+
+    <!-- terminal whoami -->
+    <div>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="term-dot" style="background:#ff6ec7"></span>
+          <span class="term-dot" style="background:#ffd86e"></span>
+          <span class="term-dot" style="background:#5ef2a0"></span>
+          <span class="term-path">~/whoami</span>
+        </div>
+        <div class="term-body">
+          <div><span class="c-prompt">$</span> whoami</div>
+          <div><span class="c-cyan">{cv.name}</span></div>
+          <div><span class="c-prompt">$</span> cat role.txt</div>
+          <div><span class="c-lilac">{cv.role}</span></div>
+          <div><span class="c-prompt">$</span> location --now</div>
+          <div><span class="c-pink">{cv.location}</span></div>
+          <div><span class="c-prompt">$</span> uptime --years</div>
+          <div><span class="c-yellow">{cv.years}</span><span class="term-cursor">&nbsp;</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section class="section">
+    <div class="kicker tight">// {t('section.about')}</div>
+    {cv.about.map((p) => <p class="lead">{p}</p>)}
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section class="section">
+    <div class="kicker">// {t('section.experience')}</div>
+    {cv.experience.map((job) => (
+      <div class="xp-item">
+        <div class="xp-period">{job.period}</div>
+        <div>
+          <h3 class="xp-role">{job.role}</h3>
+          <div class="xp-org">{job.org}</div>
+          {job.bullets.map((b) => (
+            <div class="xp-bullet"><span class="mk">▸</span><span>{b}</span></div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section">
+    <div class="kicker">// {t('section.skills')}</div>
+    <div class="skills-grid">
+      {cv.skills.map((grp) => (
+        <div class="skill-card lift">
+          <div class="skill-head"><span class="ic">{grp.icon}</span>{grp.group}</div>
+          <div class="chips">
+            {grp.items.map((it) => <span class="chip">{it}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CERTIFICACOES -->
+  <section class="section">
+    <div class="kicker">// {t('section.certs')}</div>
+    <div class="certs-grid">
+      {cv.certs.map((c) => (
+        <div class="cert-card lift">
+          <div class="cert-kind">{c.kind}</div>
+          <div class="cert-name">{c.name}</div>
+          <div class="cert-issuer">{c.issuer}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="contact">
+    <div class="contact-card">
+      <div class="kicker tight" style="color:var(--cyan)">// {t('section.contact')}</div>
+      <h2 class="contact-title">{cv.contactTitle}</h2>
+      <p class="contact-blurb">{cv.contactBlurb}</p>
+      <div class="contact-links">
+        {cv.contacts.map((c) => (
+          <a class="contact-link" href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener' : undefined}>{c.icon} {c.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+</main>

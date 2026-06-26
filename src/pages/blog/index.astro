@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import BlogList from '../../components/BlogList.astro';
+import { getPosts, getTags } from '../../lib/posts';
+import { localizedPath } from '../../i18n/ui';
+
+const posts = await getPosts('pt');
+const tags = await getTags('pt');
+---
+
+<Base
+  lang="pt"
+  active="blog"
+  title="Blog — CTIWitch"
+  description="Write-ups de Cyber Threat Intelligence: threat hunting, OSINT e análise de ameaças."
+  ptHref={localizedPath('pt', 'blog')}
+  enHref={localizedPath('en', 'blog')}
+>
+  <BlogList lang="pt" posts={posts} tags={tags} />
+</Base>

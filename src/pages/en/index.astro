@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import Resume from '../../components/Resume.astro';
+import cv from '../../data/cv.en.json';
+import { localizedPath } from '../../i18n/ui';
+---
+
+<Base
+  lang="en"
+  active="home"
+  title="CTIWitch — OSINT W1tch · CTI Analyst"
+  description={cv.heroBlurb}
+  ptHref={localizedPath('pt', '')}
+  enHref={localizedPath('en', '')}
+>
+  <Resume lang="en" cv={cv} blogHref={localizedPath('en', 'blog')} />
+</Base>

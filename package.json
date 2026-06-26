@@ -1,0 +1,17 @@
+{
+  "name": "ctiwitch",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Portfolio bilingue (PT/EN) de Cyber Threat Intelligence — Astro estatico para Cloudflare Pages",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.5.0"
+  }
+}

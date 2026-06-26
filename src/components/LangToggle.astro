@@ -1,0 +1,43 @@
+---
+/**
+ * Toggle PT|EN. Cada botao e um link para a URL equivalente no outro idioma,
+ * o que faz o idioma PERSISTIR pela rota (sem localStorage).
+ *
+ * - ptHref / enHref: destino em cada idioma. Pode ser `null` quando a versao
+ *   naquele idioma NAO existe (ex.: um write-up sem traducao) — nesse caso o
+ *   botao fica elegantemente desabilitado, sem quebrar a navegacao.
+ */
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  ptHref: string | null;
+  enHref: string | null;
+}
+const { lang, ptHref, enHref } = Astro.props;
+const t = useTranslations(lang);
+
+const items: { code: Lang; href: string | null }[] = [
+  { code: 'pt', href: ptHref },
+  { code: 'en', href: enHref },
+];
+---
+
+<div class="lang-toggle" role="group" aria-label={t('toggle.tip')}>
+  {items.map(({ code, href }) => {
+    const isActive = code === lang;
+    const label = code.toUpperCase();
+    if (isActive) {
+      return <span class="lang-btn is-active" aria-current="true">{label}</span>;
+    }
+    if (href) {
+      return <a class="lang-btn" href={href} title={t('toggle.tip')}>{label}</a>;
+    }
+    // versao indisponivel neste idioma
+    return (
+      <span class="lang-btn is-disabled" title={t('post.unavailable')} aria-disabled="true">
+        {label}
+      </span>
+    );
+  })}
+</div>

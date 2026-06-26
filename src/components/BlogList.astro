@@ -1,0 +1,88 @@
+---
+import { useTranslations, type Lang } from '../i18n/ui';
+import type { Post } from '../lib/posts';
+import PostCard from './PostCard.astro';
+
+interface Props { lang: Lang; posts: Post[]; tags: string[]; }
+const { lang, posts, tags } = Astro.props;
+const t = useTranslations(lang);
+const langUpper = lang.toUpperCase();
+const hasPosts = posts.length > 0;
+---
+
+<main class="wrap">
+  <div class="page-head">
+    <h1 class="page-title">{t('blog.title')}</h1>
+    <p class="page-sub">{t('blog.subPre')}<span class="hl">{langUpper}</span>{t('blog.subPost')}</p>
+  </div>
+
+  <!-- busca por titulo (client-side, sem dependencias) -->
+  <div class="blog-controls">
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input id="post-search" class="search-input" type="search" placeholder={t('blog.search')} autocomplete="off" />
+    </div>
+  </div>
+
+  <!-- filtro por tags (client-side) -->
+  <div class="tag-chips">
+    <button class="tag-chip is-active" data-tag="">{t('blog.tagAll')}</button>
+    {tags.map((tg) => <button class="tag-chip" data-tag={tg}>#{tg}</button>)}
+  </div>
+
+  <div id="post-grid" class="post-grid">
+    {posts.map((post) => <PostCard post={post} lang={lang} />)}
+  </div>
+
+  <div id="post-empty" class="empty" style={hasPosts ? 'display:none' : ''}>
+    <div class="big">∅</div>
+    {t('blog.empty')}<span id="empty-reason">{hasPosts ? '' : t('blog.emptyLang')}</span>.
+  </div>
+</main>
+
+<script
+  is:inline
+  define:vars={{ reasonFilter: t('blog.emptyFilter'), reasonLang: t('blog.emptyLang'), hasPosts }}
+>
+  // Filtro de tags + busca por titulo, 100% client-side e em memoria.
+  const grid = document.getElementById('post-grid');
+  const cards = Array.from(grid ? grid.querySelectorAll('.post-card') : []);
+  const chips = Array.from(document.querySelectorAll('.tag-chip'));
+  const search = document.getElementById('post-search');
+  const empty = document.getElementById('post-empty');
+  const reasonEl = document.getElementById('empty-reason');
+
+  let activeTag = '';
+  let query = '';
+
+  function apply() {
+    let visible = 0;
+    for (const c of cards) {
+      const tags = (c.getAttribute('data-tags') || '').split('|');
+      const title = c.getAttribute('data-title') || '';
+      const okTag = !activeTag || tags.includes(activeTag);
+      const okQuery = !query || title.includes(query);
+      const show = okTag && okQuery;
+      c.style.display = show ? '' : 'none';
+      if (show) visible++;
+    }
+    if (empty) {
+      empty.style.display = visible ? 'none' : '';
+      if (reasonEl) reasonEl.textContent = hasPosts ? reasonFilter : reasonLang;
+    }
+  }
+
+  for (const ch of chips) {
+    ch.addEventListener('click', () => {
+      activeTag = ch.getAttribute('data-tag') || '';
+      for (const x of chips) x.classList.toggle('is-active', x === ch);
+      apply();
+    });
+  }
+  if (search) {
+    search.addEventListener('input', () => {
+      query = search.value.toLowerCase().trim();
+      apply();
+    });
+  }
+</script>

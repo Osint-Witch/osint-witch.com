@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import { localizedPath } from '../i18n/ui';
+---
+
+<Base
+  lang="pt"
+  active="home"
+  title="404 — CTIWitch"
+  ptHref={localizedPath('pt', '')}
+  enHref={localizedPath('en', '')}
+>
+  <main class="wrap" style="text-align:center; padding:120px 24px;">
+    <div style="font-size:64px; margin-bottom:10px;">☁️</div>
+    <h1 style="font-size:42px; margin:0 0 8px;">404</h1>
+    <p style="color:var(--muted); margin:0 0 26px; font-family:var(--mono);">
+      Esta página se perdeu na nuvem. / This page drifted off into the cloud.
+    </p>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a class="btn btn-primary lift" href={localizedPath('pt', '')}>Início</a>
+      <a class="btn btn-ghost lift" href={localizedPath('en', '')}>Home (EN)</a>
+    </div>
+  </main>
+</Base>

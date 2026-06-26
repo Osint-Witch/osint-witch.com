@@ -1,0 +1,23 @@
+---
+import { formatDate, localizedPath, type Lang } from '../i18n/ui';
+import type { Post } from '../lib/posts';
+
+interface Props { post: Post; lang: Lang; }
+const { post, lang } = Astro.props;
+const { title, summary, date, tags, slug, cover } = post.data;
+const href = localizedPath(lang, `blog/${slug}`);
+const coverBg = cover ?? 'linear-gradient(135deg,#2a1f5c,#7c5cff 60%,#2ee6d6)';
+---
+
+<a class="post-card lift" href={href} data-title={title.toLowerCase()} data-tags={tags.join('|')}>
+  <div class="post-cover" style={`background:${coverBg}`}>
+    <span class="post-date">{formatDate(date, lang)}</span>
+  </div>
+  <div class="post-body">
+    <h3 class="post-title">{title}</h3>
+    <p class="post-summary">{summary}</p>
+    <div class="post-tags">
+      {tags.map((tg) => <span class="post-tag">#{tg}</span>)}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,34 @@
+---
+import { useTranslations, localizedPath, formatDate, type Lang } from '../i18n/ui';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  lang: Lang;
+  post: Post;
+  minutes: number;
+  /** Componente renderizado do corpo Markdown (vindo de render(entry)) */
+  Content: any;
+}
+const { lang, post, minutes, Content } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<article class="article">
+  <a class="back-link" href={localizedPath(lang, 'blog')}>{t('post.back')}</a>
+
+  <div class="tags-row">
+    {post.data.tags.map((tg) => <span class="post-tag">#{tg}</span>)}
+  </div>
+
+  <h1 class="post-h1">{post.data.title}</h1>
+
+  <div class="post-meta">
+    <span>{formatDate(post.data.date, lang)}</span>
+    <span class="sep">•</span>
+    <span>{minutes}{t('post.minRead')}</span>
+    <span class="sep">•</span>
+    <span class="lang">{lang.toUpperCase()}</span>
+  </div>
+
+  <div class="prose"><Content /></div>
+</article>

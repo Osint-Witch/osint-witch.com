@@ -1,0 +1,261 @@
+---
+/**
+ * CTIWitch — nuvenzinha companheira (CSS/SVG + JS puro, leve).
+ *
+ * Comportamento:
+ *  - flutua sozinha no canto com leve parallax no scroll;
+ *  - segue o cursor de forma esporadica e preguicosa (curiosa -> hesita -> volta);
+ *  - pisca os olhos e tira soneca (💤) quando fica parada e longe do mouse;
+ *  - ao clicar: "squish" + solta moeda/coracao/estrela/nota com poof;
+ *  - som opcional (tilim de varinha), padrao DESLIGADO, ligavel no botao da nav;
+ *  - respeita prefers-reduced-motion (fica estatica, sem particulas).
+ *
+ * Persiste em todas as paginas porque vive no layout Base.
+ */
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<!-- camada das particulas (poof/moedas/emotes) -->
+<div id="cti-coinlayer" aria-hidden="true"></div>
+
+<!-- a nuvenzinha -->
+<button id="cti-cloud" type="button" title={t('cloud.tip')} aria-label={t('cloud.tip')}>
+  <svg width="84" height="54" viewBox="0 0 88 56" style="overflow:visible;">
+    <defs>
+      <filter id="cloudOutline" x="-25%" y="-25%" width="150%" height="150%">
+        <feMorphology in="SourceAlpha" operator="dilate" radius="2.6" result="dil" />
+        <feFlood flood-color="#6172d8" />
+        <feComposite in2="dil" operator="in" result="outline" />
+        <feMerge>
+          <feMergeNode in="outline" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#cloudOutline)">
+      <rect x="14" y="33" width="60" height="16" rx="8" fill="#ffffff" />
+      <circle cx="18" cy="37" r="13" fill="#ffffff" />
+      <circle cx="34" cy="25" r="16" fill="#ffffff" />
+      <circle cx="54" cy="25" r="15" fill="#ffffff" />
+      <circle cx="70" cy="37" r="13" fill="#ffffff" />
+      <rect x="16" y="43" width="56" height="6" rx="3" fill="#dfe6ff" />
+    </g>
+    <ellipse cx="29" cy="35" rx="4.5" ry="2.8" fill="#ff9ed8" opacity="0.75" />
+    <ellipse cx="61" cy="35" rx="4.5" ry="2.8" fill="#ff9ed8" opacity="0.75" />
+    <g id="cti-eyes" style="transform-box:fill-box;">
+      <ellipse cx="38" cy="28" rx="3.4" ry="4" fill="#2b2452" />
+      <ellipse cx="52" cy="28" rx="3.4" ry="4" fill="#2b2452" />
+      <circle cx="39.2" cy="26.6" r="1.2" fill="#fff" />
+      <circle cx="53.2" cy="26.6" r="1.2" fill="#fff" />
+    </g>
+    <path d="M41 33 Q45 37 49 33" stroke="#2b2452" stroke-width="2.2" fill="none" stroke-linecap="round" />
+  </svg>
+</button>
+
+<style>
+  #cti-coinlayer { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
+  #cti-cloud {
+    position: fixed; left: 0; top: 0; width: 84px; height: 54px; z-index: 55;
+    padding: 0; border: none; background: none; cursor: pointer; pointer-events: auto;
+    will-change: transform; filter: drop-shadow(0 7px 13px rgba(124, 92, 255, 0.4));
+  }
+</style>
+
+<script>
+  const cloud = document.getElementById('cti-cloud');
+  const layer = document.getElementById('cti-coinlayer');
+  const eyes = document.getElementById('cti-eyes');
+  const soundBtn = document.getElementById('cti-sound');
+
+  if (cloud && layer) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- estado do som (em memoria; padrao desligado) ---
+    let soundOn = false;
+    let actx: AudioContext | null = null;
+    if (soundBtn) {
+      soundBtn.addEventListener('click', () => {
+        soundOn = !soundOn;
+        soundBtn.textContent = soundOn ? '🔊' : '🔇';
+        soundBtn.setAttribute('aria-pressed', String(soundOn));
+      });
+    }
+
+    // --- posicao / fisica ---
+    let cx = window.innerWidth - 150, cy = 110;
+    let mx = cx, my = cy, scrollY = 0;
+    let tiltV = 0, ex = 0, ey = 0, squish = 0;
+    let mode: 'float' | 'curious' | 'hesitate' = 'float';
+    let modeUntil = performance.now() + 2200;
+    let lastFloatStart = performance.now();
+    let sleeping = false, lastEmote = 0;
+    let nextBlink = performance.now() + 2000 + Math.random() * 2500;
+    let blinkUntil = 0;
+
+    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+    window.addEventListener('scroll', () => { scrollY = window.scrollY || 0; }, { passive: true });
+    cloud.addEventListener('click', react);
+
+    // "tilim" de varinha magica (arpejo cintilante)
+    function blip() {
+      if (!soundOn) return;
+      try {
+        const Ctx = window.AudioContext || (window as any).webkitAudioContext;
+        if (!actx) actx = new Ctx();
+        const ac = actx!;
+        if (ac.state === 'suspended') ac.resume();
+        const t0 = ac.currentTime;
+        const notes = [1047, 1319, 1568, 2093, 2637];
+        notes.forEach((f, i) => {
+          const o = ac.createOscillator(), g = ac.createGain();
+          o.type = 'triangle'; o.frequency.value = f;
+          o.connect(g); g.connect(ac.destination);
+          const start = t0 + i * 0.045;
+          g.gain.setValueAtTime(0.0001, start);
+          g.gain.exponentialRampToValueAtTime(0.1, start + 0.012);
+          g.gain.exponentialRampToValueAtTime(0.0001, start + 0.34);
+          o.start(start); o.stop(start + 0.36);
+        });
+        const sh = ac.createOscillator(), sg = ac.createGain();
+        sh.type = 'sine';
+        sh.frequency.setValueAtTime(2637, t0 + 0.22);
+        sh.frequency.exponentialRampToValueAtTime(4186, t0 + 0.42);
+        sh.connect(sg); sg.connect(ac.destination);
+        sg.gain.setValueAtTime(0.0001, t0 + 0.22);
+        sg.gain.exponentialRampToValueAtTime(0.05, t0 + 0.25);
+        sg.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.5);
+        sh.start(t0 + 0.22); sh.stop(t0 + 0.52);
+      } catch (e) { /* noop */ }
+    }
+
+    // balao de emocao que sobe e some
+    function emote(txt: string) {
+      if (reduced) return;
+      lastEmote = performance.now();
+      const x = cx + 42, y = cy - 4;
+      const el = document.createElement('div');
+      el.textContent = txt;
+      el.style.cssText = `position:absolute;left:${x - 10}px;top:${y - 10}px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.4);animation:star 1.1s ease-out forwards;`;
+      layer!.appendChild(el);
+      setTimeout(() => el.remove(), 1150);
+    }
+
+    // pequena explosao de um simbolo
+    function burst(sym: string, color: string) {
+      const x = cx + 38, y = cy + 6;
+      for (let k = 0; k < 3; k++) {
+        const s = document.createElement('div');
+        const ang = (-Math.PI / 2) + (k - 1) * 0.5, d = 30 + Math.random() * 16;
+        s.textContent = sym;
+        s.style.cssText = `position:absolute;left:${x}px;top:${y}px;color:${color};font-size:${14 + Math.random() * 6}px;text-shadow:0 0 8px ${color};animation:star .8s ease-out forwards;transform:translate(${Math.cos(ang) * d}px,${Math.sin(ang) * d}px);`;
+        layer!.appendChild(s);
+        setTimeout(() => s.remove(), 820);
+      }
+    }
+
+    // moeda com poof + faiscas
+    function spawnCoin() {
+      const x = cx + 38, y = cy + 6;
+      const ring = document.createElement('div');
+      ring.style.cssText = `position:absolute;left:${x - 20}px;top:${y - 20}px;width:40px;height:40px;border-radius:50%;border:3px solid #fff;animation:poof .45s ease-out forwards;`;
+      layer!.appendChild(ring);
+      const coin = document.createElement('div');
+      coin.style.cssText = `position:absolute;left:${x - 11}px;top:${y - 11}px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6c0,#ffd000 55%,#d99a00);box-shadow:0 0 14px rgba(255,208,0,.8);display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;color:#a06b00;animation:coinSpin .7s ease-out forwards;`;
+      coin.textContent = '$';
+      layer!.appendChild(coin);
+      for (let k = 0; k < 4; k++) {
+        const s = document.createElement('div');
+        const ang = Math.random() * 6.28, d = 24 + Math.random() * 20;
+        s.style.cssText = `position:absolute;left:${x}px;top:${y}px;color:#2ee6d6;font-size:13px;animation:star .55s ease-out forwards;transform:translate(${Math.cos(ang) * d}px,${Math.sin(ang) * d}px);`;
+        s.textContent = '✦';
+        layer!.appendChild(s);
+      }
+      setTimeout(() => { ring.remove(); coin.remove(); }, 750);
+      if (layer!.childElementCount > 60) layer!.firstChild && layer!.firstChild.remove();
+    }
+
+    // reacao ao clique
+    function react() {
+      squish = 1;
+      sleeping = false; lastFloatStart = performance.now();
+      blip();
+      const roll = Math.random();
+      if (roll < 0.55) spawnCoin();
+      else if (roll < 0.75) burst('❤', '#ff6ec7');
+      else if (roll < 0.9) burst('★', '#ffd86e');
+      else burst('♪', '#2ee6d6');
+    }
+
+    if (reduced) {
+      cloud.style.transform = `translate(${cx}px,${cy}px)`;
+    } else {
+      const t0 = performance.now();
+      const loop = (now: number) => {
+        const t = (now - t0) / 1000;
+
+        // piscar
+        if (now > nextBlink) { blinkUntil = now + 120; nextBlink = now + 2200 + Math.random() * 3000; }
+        const blinking = now < blinkUntil;
+
+        // soneca quando parada e longe do cursor
+        const far = Math.hypot(mx - cx - 42, my - cy - 28) > 260;
+        if (mode === 'float' && far) {
+          if (!sleeping && now - lastFloatStart > 6000) { sleeping = true; emote('💤'); }
+          if (sleeping && now - lastEmote > 2600) emote('💤');
+        } else { sleeping = false; lastFloatStart = now; }
+
+        // ancora flutuante no canto + parallax suave
+        const anchorX = window.innerWidth - 150 + Math.sin(t * 0.5) * 26;
+        const anchorY = 120 + Math.sin(t * 0.8) * 12 - Math.min(scrollY * 0.04, 40);
+
+        // maquina de estados: as vezes fica curiosa, hesita, volta a flutuar
+        if (now > modeUntil) {
+          if (mode === 'float') {
+            if (Math.random() < 0.3) {
+              mode = 'curious'; modeUntil = now + 1400 + Math.random() * 1200;
+              if (Math.random() < 0.5) emote(Math.random() < 0.5 ? '?' : '!');
+            } else { modeUntil = now + 3000 + Math.random() * 3500; }
+          } else if (mode === 'curious') {
+            mode = 'hesitate'; modeUntil = now + 600 + Math.random() * 800;
+          } else {
+            mode = 'float'; modeUntil = now + 3200 + Math.random() * 3500;
+          }
+        }
+
+        let tx: number, ty: number, ease: number;
+        if (mode === 'curious') {
+          tx = cx + (mx - 46 - cx) * 0.5;
+          ty = cy + (my - 78 - cy) * 0.5;
+          ease = 0.022;
+        } else if (mode === 'hesitate') {
+          tx = cx; ty = cy + Math.sin(t * 1.8) * 1.6; ease = 0.02;
+        } else {
+          tx = anchorX; ty = anchorY; ease = 0.016;
+        }
+        const dx = tx - cx, dy = ty - cy;
+        cx += dx * ease; cy += dy * ease;
+
+        const targetTilt = Math.max(-6, Math.min(6, dx * 0.08));
+        tiltV += (targetTilt - tiltV) * 0.08;
+        squish *= 0.86;
+        const sx = 1 + squish * 0.28, sy = 1 - squish * 0.22;
+        cloud.style.transform = `translate(${cx.toFixed(2)}px,${cy.toFixed(2)}px) rotate(${tiltV.toFixed(2)}deg) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
+
+        if (eyes) {
+          const tex = Math.max(-2.2, Math.min(2.2, (mx - cx - 45) * 0.02));
+          const tey = Math.max(-1.6, Math.min(1.6, (my - cy - 28) * 0.02));
+          ex += (tex - ex) * 0.12; ey += (tey - ey) * 0.12;
+          const bs = (blinking || sleeping) ? 0.12 : 1;
+          eyes.style.transform = `translate(${ex.toFixed(2)}px,${ey.toFixed(2)}px) scaleY(${bs})`;
+        }
+
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
+  }
+</script>
