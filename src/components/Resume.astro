@@ -1,5 +1,7 @@
 ---
 import { useTranslations, type Lang } from '../i18n/ui';
+import PostCard from './PostCard.astro';
+import type { Post } from '../lib/posts';
 
 interface CVContact { icon: string; label: string; href: string; }
 interface CVJob { period: string; role: string; org: string; bullets: string[]; }
@@ -12,9 +14,10 @@ interface CV {
   certs: CVCert[]; contactTitle: string; contactBlurb: string; contacts: CVContact[];
 }
 
-interface Props { lang: Lang; cv: CV; blogHref: string; }
-const { lang, cv, blogHref } = Astro.props;
+interface Props { lang: Lang; cv: CV; blogHref: string; posts?: Post[]; tags?: string[]; }
+const { lang, cv, posts = [], tags = [] } = Astro.props;
 const t = useTranslations(lang);
+const hasPosts = posts.length > 0;
 ---
 
 <main class="wrap">
@@ -24,9 +27,6 @@ const t = useTranslations(lang);
       <h1 class="hero-name">{cv.name}</h1>
       <p class="hero-tag">{cv.tagline}</p>
       <p class="hero-blurb">{cv.heroBlurb}</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary lift" href={blogHref}>{t('hero.readBlog')}</a>
-      </div>
     </div>
 
     <!-- terminal whoami -->
@@ -50,13 +50,13 @@ const t = useTranslations(lang);
     </div>
   </section>
 
-  <!-- SKILLS -->
+  <!-- SKILLS (compact) -->
   <section class="section">
     <div class="kicker">// {t('section.skills')}</div>
-    <div class="skills-grid">
+    <div class="skills-compact">
       {cv.skills.map((grp) => (
-        <div class="skill-card lift">
-          <div class="skill-head"><span class="ic">{grp.icon}</span>{grp.group}</div>
+        <div class="skill-row">
+          <span class="skill-row-head"><span class="ic">{grp.icon}</span>{grp.group}</span>
           <div class="chips">
             {grp.items.map((it) => <span class="chip">{it}</span>)}
           </div>
@@ -65,4 +65,72 @@ const t = useTranslations(lang);
     </div>
   </section>
 
+  <!-- BLOG -->
+  <section id="blog" class="section">
+    <div class="kicker">// {t('blog.title')}</div>
+
+    <div class="blog-controls">
+      <div class="search">
+        <span class="search-icon">⌕</span>
+        <input id="post-search" class="search-input" type="search" placeholder={t('blog.search')} autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="tag-chips">
+      <button class="tag-chip is-active" data-tag="">{t('blog.tagAll')}</button>
+      {tags.map((tg) => <button class="tag-chip" data-tag={tg}>#{tg}</button>)}
+    </div>
+
+    <div id="post-grid" class="post-grid">
+      {posts.map((post) => <PostCard post={post} lang={lang} />)}
+    </div>
+
+    <div id="post-empty" class="empty" style={hasPosts ? 'display:none' : ''}>
+      <div class="big">∅</div>
+      {t('blog.empty')}<span id="empty-reason">{hasPosts ? '' : t('blog.emptyLang')}</span>.
+    </div>
+  </section>
 </main>
+
+<script is:inline define:vars={{ reasonFilter: t('blog.emptyFilter'), reasonLang: t('blog.emptyLang'), hasPosts }}>
+  const grid = document.getElementById('post-grid');
+  const cards = Array.from(grid ? grid.querySelectorAll('.post-card') : []);
+  const chips = Array.from(document.querySelectorAll('.tag-chip'));
+  const search = document.getElementById('post-search');
+  const empty = document.getElementById('post-empty');
+  const reasonEl = document.getElementById('empty-reason');
+
+  let activeTag = '';
+  let query = '';
+
+  function apply() {
+    let visible = 0;
+    for (const c of cards) {
+      const tags = (c.getAttribute('data-tags') || '').split('|');
+      const title = c.getAttribute('data-title') || '';
+      const okTag = !activeTag || tags.includes(activeTag);
+      const okQuery = !query || title.includes(query);
+      const show = okTag && okQuery;
+      c.style.display = show ? '' : 'none';
+      if (show) visible++;
+    }
+    if (empty) {
+      empty.style.display = visible ? 'none' : '';
+      if (reasonEl) reasonEl.textContent = hasPosts ? reasonFilter : reasonLang;
+    }
+  }
+
+  for (const ch of chips) {
+    ch.addEventListener('click', () => {
+      activeTag = ch.getAttribute('data-tag') || '';
+      for (const x of chips) x.classList.toggle('is-active', x === ch);
+      apply();
+    });
+  }
+  if (search) {
+    search.addEventListener('input', () => {
+      query = search.value.toLowerCase().trim();
+      apply();
+    });
+  }
+</script>

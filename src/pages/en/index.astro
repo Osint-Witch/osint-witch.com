@@ -3,6 +3,10 @@ import Base from '../../layouts/Base.astro';
 import Resume from '../../components/Resume.astro';
 import cv from '../../data/cv.en.json';
 import { localizedPath } from '../../i18n/ui';
+import { getPosts, getTags } from '../../lib/posts';
+
+const posts = await getPosts('en');
+const tags = await getTags('en');
 ---
 
 <Base
@@ -13,5 +17,5 @@ import { localizedPath } from '../../i18n/ui';
   ptHref={localizedPath('pt', '')}
   enHref={localizedPath('en', '')}
 >
-  <Resume lang="en" cv={cv} blogHref={localizedPath('en', 'blog')} />
+  <Resume lang="en" cv={cv} blogHref={localizedPath('en', 'blog')} posts={posts} tags={tags} />
 </Base>
