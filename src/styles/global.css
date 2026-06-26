@@ -77,6 +77,13 @@ img { max-width: 100%; display: block; }
   0%, 100% { opacity: 0.55; }
   50% { opacity: 1; }
 }
+@keyframes glitch {
+  0%, 90%, 100% { text-shadow: 0 0 24px rgba(167,139,255,0.45); transform: none; }
+  91%            { text-shadow: -3px 0 var(--cyan), 3px 0 var(--pink); transform: translateX(-2px); }
+  93%            { text-shadow: 3px 0 var(--pink), -3px 0 var(--cyan); transform: translateX(2px); }
+  95%            { text-shadow: -2px 0 var(--cyan), 2px 0 var(--pink); transform: translateX(-1px); }
+  97%            { text-shadow: 0 0 24px rgba(167,139,255,0.45); transform: none; }
+}
 
 /* =========================================================================
    Layout base
@@ -125,7 +132,7 @@ img { max-width: 100%; display: block; }
 .hero { padding: 72px 0 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; }
 .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--green); background: rgba(94, 242, 160, 0.08); border: 1px solid rgba(94, 242, 160, 0.25); padding: 6px 12px; border-radius: 20px; margin-bottom: 22px; }
 .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: glowpulse 2s infinite; }
-.hero-name { font-size: 62px; line-height: 1.02; margin: 0 0 8px; font-weight: 700; letter-spacing: -0.03em; }
+.hero-name { font-size: 62px; line-height: 1.02; margin: 0 0 8px; font-weight: 700; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--purple), var(--cyan) 60%, var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glitch 7s infinite; }
 .hero-role { font-family: var(--mono); font-size: 18px; color: var(--cyan); margin: 0 0 6px; }
 .hero-tag { font-family: var(--mono); font-size: 15px; color: var(--pink); margin: 0 0 22px; letter-spacing: 0.04em; }
 .hero-blurb { font-size: 18px; line-height: 1.7; color: var(--soft); max-width: 46ch; margin: 0 0 28px; }
