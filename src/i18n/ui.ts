@@ -37,7 +37,7 @@ export const ui = {
     'toggle.tip': 'Trocar idioma do conteúdo',
     'sound.tip': 'Som da nuvem',
     'cloud.tip': 'me clica! ☁️',
-    'footer': 'feito com ☁️ por CTIWitch · ctiwitch.com · estático no Cloudflare Pages',
+    'footer': 'feito com ☁️ por CTI Witch · osint-witch.com · estático no GitHub Pages',
   },
   en: {
     'nav.home': 'Home',
@@ -63,7 +63,7 @@ export const ui = {
     'toggle.tip': 'Switch content language',
     'sound.tip': 'Cloud sound',
     'cloud.tip': 'click me! ☁️',
-    'footer': 'made with ☁️ by CTIWitch · ctiwitch.com · static on Cloudflare Pages',
+    'footer': 'made with ☁️ by CTI Witch · osint-witch.com · static on GitHub Pages',
   },
 } as const;
 

@@ -1,12 +1,12 @@
 {
   "available": "aberta a trocas e colaborações",
-  "name": "OSINT W1tch",
+  "name": "CTI Witch",
   "role": "Líder de Equipe Cyber Threat Intelligence @ FinTech",
   "tagline": "#InfoHunter",
   "location": "Brasil",
   "years": "3+ anos em CTI · 5+ em segurança",
   "downloadLabel": "CV (PDF)",
-  "cvFile": "/cv/cv-jady-pt.pdf",
+  "cvFile": "/cv/cv-pt.pdf",
   "heroBlurb": "Analista de Inteligência de Ameaças com experiência na liderança de equipes, criação e otimização de processos, resposta a incidentes de fraudes e riscos digitais, Takedown e condução de operações táticas, operacionais e estratégicas.",
   "about": [
     "Analista de Inteligência de Ameaças com experiência na liderança de equipes, criação e otimização de processos, resposta a incidentes de fraudes e riscos digitais e remoção de conteúdo corporativo ou fraudulento online (Takedown).",
@@ -71,7 +71,7 @@
   "contactTitle": "Vamos trocar sobre threat intel?",
   "contactBlurb": "Aberta a colaborações, papos sobre CTI, threat hunting e OSINT.",
   "contacts": [
-    { "icon": "✉", "label": "hello@ctiwitch.com", "href": "mailto:hello@ctiwitch.com" },
-    { "icon": "in", "label": "osint-witch.com", "href": "https://osint-witch.com" }
+    { "icon": "✉", "label": "hello@osint-witch.com", "href": "mailto:hello@osint-witch.com" },
+    { "icon": "in", "label": "LinkedIn", "href": "https://osint-witch.com" }
   ]
 }
