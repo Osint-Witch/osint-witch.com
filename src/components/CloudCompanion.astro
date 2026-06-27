@@ -1,199 +1,263 @@
 ---
-/**
- * CTIWitch — nuvenzinha companheira (CSS/SVG + JS puro, leve).
- *
- * Comportamento:
- *  - flutua sozinha no canto com leve parallax no scroll;
- *  - segue o cursor de forma esporadica e preguicosa (curiosa -> hesita -> volta);
- *  - pisca os olhos e tira soneca (💤) quando fica parada e longe do mouse;
- *  - ao clicar: "squish" + solta moeda/coracao/estrela/nota com poof;
- *  - som opcional (tilim de varinha), padrao DESLIGADO, ligavel no botao da nav;
- *  - respeita prefers-reduced-motion (fica estatica, sem particulas).
- *
- * Persiste em todas as paginas porque vive no layout Base.
- */
 import { useTranslations, type Lang } from '../i18n/ui';
-
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<!-- camada das particulas (poof/moedas/emotes) -->
 <div id="cti-coinlayer" aria-hidden="true"></div>
 
-<!-- a nuvenzinha -->
 <button id="cti-cloud" type="button" title={t('cloud.tip')} aria-label={t('cloud.tip')}>
-  <svg width="84" height="54" viewBox="0 0 88 56" style="overflow:visible;">
+  <svg id="eye-svg" width="140" height="90" viewBox="0 0 120 72" style="overflow:visible;">
     <defs>
-      <filter id="cloudOutline" x="-25%" y="-25%" width="150%" height="150%">
-        <feMorphology in="SourceAlpha" operator="dilate" radius="2.6" result="dil" />
-        <feFlood flood-color="#6172d8" />
-        <feComposite in2="dil" operator="in" result="outline" />
-        <feMerge>
-          <feMergeNode in="outline" />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
+      <radialGradient id="iris-g" cx="44%" cy="38%" r="56%">
+        <stop offset="0%"   stop-color="#eefffd"/>
+        <stop offset="12%"  stop-color="#2ee6d6"/>
+        <stop offset="42%"  stop-color="#a78bff"/>
+        <stop offset="70%"  stop-color="#5a18b0"/>
+        <stop offset="88%"  stop-color="#1e0850"/>
+        <stop offset="100%" stop-color="#080120"/>
+      </radialGradient>
+      <radialGradient id="sclera-g" cx="50%" cy="42%" r="58%">
+        <stop offset="0%"   stop-color="#f8f4ff"/>
+        <stop offset="100%" stop-color="#d4cef5"/>
+      </radialGradient>
+      <radialGradient id="aura-g" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="#a78bff" stop-opacity="0.28"/>
+        <stop offset="100%" stop-color="#a78bff" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="iris-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3.5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
       </filter>
+      <filter id="aura-blur" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="11"/>
+      </filter>
+      <filter id="gr" x="-8%" y="-8%" width="116%" height="116%">
+        <feOffset dx="5" dy="-1" result="o"/>
+        <feFlood flood-color="#ff6ec7" flood-opacity="0.6" result="c"/>
+        <feComposite in="c" in2="o" operator="in" result="g"/>
+        <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="gc" x="-8%" y="-8%" width="116%" height="116%">
+        <feOffset dx="-5" dy="1" result="o"/>
+        <feFlood flood-color="#2ee6d6" flood-opacity="0.6" result="c"/>
+        <feComposite in="c" in2="o" operator="in" result="g"/>
+        <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <clipPath id="eye-clip">
+        <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"/>
+      </clipPath>
+      <clipPath id="iris-clip">
+        <circle cx="60" cy="36" r="22"/>
+      </clipPath>
     </defs>
-    <g filter="url(#cloudOutline)">
-      <rect x="14" y="33" width="60" height="16" rx="8" fill="#ffffff" />
-      <circle cx="18" cy="37" r="13" fill="#ffffff" />
-      <circle cx="34" cy="25" r="16" fill="#ffffff" />
-      <circle cx="54" cy="25" r="15" fill="#ffffff" />
-      <circle cx="70" cy="37" r="13" fill="#ffffff" />
-      <rect x="16" y="43" width="56" height="6" rx="3" fill="#dfe6ff" />
+
+    <!-- aura -->
+    <ellipse cx="60" cy="36" rx="58" ry="36"
+             fill="url(#aura-g)" filter="url(#aura-blur)"/>
+
+    <!-- esclera -->
+    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
+          fill="url(#sclera-g)"/>
+
+    <!-- íris + pupila -->
+    <g clip-path="url(#eye-clip)">
+      <circle cx="60" cy="36" r="22" fill="url(#iris-g)" filter="url(#iris-glow)"/>
+
+      <g id="eye-fibers" clip-path="url(#iris-clip)" opacity="0.28"></g>
+
+      <circle cx="60" cy="36" r="20" fill="none" stroke="#2ee6d6" stroke-width="0.7" opacity="0.45" clip-path="url(#iris-clip)"/>
+      <circle cx="60" cy="36" r="15" fill="none" stroke="#a78bff" stroke-width="0.5" opacity="0.4"  clip-path="url(#iris-clip)"/>
+      <circle cx="60" cy="36" r="10" fill="none" stroke="#2ee6d6" stroke-width="0.4" opacity="0.3"  clip-path="url(#iris-clip)"/>
+
+      <circle cx="60" cy="36" r="22" fill="none" stroke="#040110" stroke-width="4.5" clip-path="url(#iris-clip)"/>
+
+      <ellipse id="eye-pupil" cx="60" cy="36" rx="5" ry="15" fill="#020110" clip-path="url(#iris-clip)"/>
+      <ellipse               cx="60" cy="36" rx="3.5" ry="13.5" fill="#00000a" clip-path="url(#iris-clip)"/>
+
+      <ellipse cx="65" cy="27" rx="4" ry="2.4" fill="white" opacity="0.92"
+               transform="rotate(-18 65 27)" clip-path="url(#iris-clip)"/>
+      <circle  cx="55" cy="44" r="1.4" fill="white" opacity="0.38" clip-path="url(#iris-clip)"/>
     </g>
-    <ellipse cx="29" cy="35" rx="4.5" ry="2.8" fill="#ff9ed8" opacity="0.75" />
-    <ellipse cx="61" cy="35" rx="4.5" ry="2.8" fill="#ff9ed8" opacity="0.75" />
-    <g id="cti-eyes" style="transform-box:fill-box;">
-      <ellipse cx="38" cy="28" rx="3.4" ry="4" fill="#2b2452" />
-      <ellipse cx="52" cy="28" rx="3.4" ry="4" fill="#2b2452" />
-      <circle cx="39.2" cy="26.6" r="1.2" fill="#fff" />
-      <circle cx="53.2" cy="26.6" r="1.2" fill="#fff" />
-    </g>
-    <path d="M41 33 Q45 37 49 33" stroke="#2b2452" stroke-width="2.2" fill="none" stroke-linecap="round" />
+
+    <!-- contorno -->
+    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
+          fill="none" stroke="url(#iris-g)" stroke-width="2"/>
+
+    <!-- cantos -->
+    <circle cx="4"   cy="36" r="2.5" fill="#a78bff" opacity="0.8"/>
+    <circle cx="116" cy="36" r="2.5" fill="#2ee6d6" opacity="0.8"/>
+
+    <!-- pálpebras -->
+    <path id="eye-lid-top" d="M4,36 C30,8  90,8  116,36 Z" fill="#07060f" opacity="0"/>
+    <path id="eye-lid-bot" d="M4,36 C30,64 90,64 116,36 Z" fill="#07060f" opacity="0"/>
   </svg>
 </button>
 
 <style>
-  #cti-coinlayer { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
+  #cti-coinlayer {
+    position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden;
+  }
   #cti-cloud {
-    position: fixed; left: 0; top: 0; width: 84px; height: 54px; z-index: 55;
+    position: fixed; left: 0; top: 0; width: 140px; height: 90px; z-index: 55;
     padding: 0; border: none; background: none; cursor: pointer; pointer-events: auto;
-    will-change: transform; filter: drop-shadow(0 7px 13px rgba(124, 92, 255, 0.4));
+    will-change: transform;
   }
 </style>
 
 <script>
-  const cloud = document.getElementById('cti-cloud');
-  const layer = document.getElementById('cti-coinlayer');
-  const eyes = document.getElementById('cti-eyes');
+  const btn    = document.getElementById('cti-cloud');
+  const eyeSvg = document.getElementById('eye-svg');
+  const pupil  = document.getElementById('eye-pupil');
+  const lidTop = document.getElementById('eye-lid-top');
+  const lidBot = document.getElementById('eye-lid-bot');
+  const layer  = document.getElementById('cti-coinlayer');
+  const fibers = document.getElementById('eye-fibers');
 
-  if (cloud && layer) {
+  if (btn && eyeSvg && pupil && lidTop && lidBot && layer && fibers) {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // --- posicao / fisica ---
-    let cx = window.innerWidth - 150, cy = 110;
-    let mx = cx, my = cy, scrollY = 0;
-    let tiltV = 0, ex = 0, ey = 0, squish = 0;
-    let mode: 'float' | 'curious' | 'hesitate' = 'float';
-    let modeUntil = performance.now() + 2200;
-    let lastFloatStart = performance.now();
-    let sleeping = false, lastEmote = 0;
-    let nextBlink = performance.now() + 2000 + Math.random() * 2500;
+    // gera fibras radiais da iris
+    const ns = 'http://www.w3.org/2000/svg';
+    for (let i = 0; i < 56; i++) {
+      const ang = (i / 56) * Math.PI * 2 + (Math.random() - .5) * .12;
+      const r0  = 5  + Math.random() * 4;
+      const r1  = 17 + Math.random() * 4;
+      const ln  = document.createElementNS(ns, 'line');
+      ln.setAttribute('x1', (60 + Math.cos(ang) * r0).toFixed(2));
+      ln.setAttribute('y1', (36 + Math.sin(ang) * r0).toFixed(2));
+      ln.setAttribute('x2', (60 + Math.cos(ang) * r1).toFixed(2));
+      ln.setAttribute('y2', (36 + Math.sin(ang) * r1).toFixed(2));
+      ln.setAttribute('stroke', Math.random() > .5 ? '#2ee6d6' : '#c9bfff');
+      ln.setAttribute('stroke-width', (.45 + Math.random() * .65).toFixed(2));
+      fibers.appendChild(ln);
+    }
+
+    let cx = window.innerWidth - 220, cy = 110;
+    let mx = cx, my = cy;
+    let ex = 0, ey = 0, squish = 0;
+    let nextBlink  = performance.now() + 1800 + Math.random() * 2200;
     let blinkUntil = 0;
+    let nextGlitch = performance.now() + 4000 + Math.random() * 5000;
+    let glitching  = false, glitchUntil = 0;
+    let mode: 'float' | 'curious' | 'hesitate' = 'float';
+    let modeUntil  = performance.now() + 3000;
+    let lastEmote  = 0, lastScan = performance.now();
 
     window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-    window.addEventListener('scroll', () => { scrollY = window.scrollY || 0; }, { passive: true });
-    cloud.addEventListener('click', react);
+    window.addEventListener('scroll', () => {}, { passive: true });
+    btn.addEventListener('click', react);
 
-    // balao de emocao que sobe e some
-    function emote(txt: string) {
-      if (reduced) return;
-      lastEmote = performance.now();
-      const x = cx + 42, y = cy - 4;
-      const el = document.createElement('div');
-      el.textContent = txt;
-      el.style.cssText = `position:absolute;left:${x - 10}px;top:${y - 10}px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.4);animation:star 1.1s ease-out forwards;`;
-      layer!.appendChild(el);
-      setTimeout(() => el.remove(), 1150);
-    }
+    const chars = ['0x', '//', '>>', '##', '??', '01', 'FF', '&&'];
 
-    // moeda com poof + faiscas
-    function spawnCoin() {
-      const x = cx + 38, y = cy + 6;
-      const ring = document.createElement('div');
-      ring.style.cssText = `position:absolute;left:${x - 20}px;top:${y - 20}px;width:40px;height:40px;border-radius:50%;border:3px solid #fff;animation:poof .45s ease-out forwards;`;
-      layer!.appendChild(ring);
-      const coin = document.createElement('div');
-      coin.style.cssText = `position:absolute;left:${x - 11}px;top:${y - 11}px;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6c0,#ffd000 55%,#d99a00);box-shadow:0 0 14px rgba(255,208,0,.8);display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;color:#a06b00;animation:coinSpin .7s ease-out forwards;`;
-      coin.textContent = '$';
-      layer!.appendChild(coin);
-      for (let k = 0; k < 4; k++) {
-        const s = document.createElement('div');
-        const ang = Math.random() * 6.28, d = 24 + Math.random() * 20;
-        s.style.cssText = `position:absolute;left:${x}px;top:${y}px;color:#2ee6d6;font-size:13px;animation:star .55s ease-out forwards;transform:translate(${Math.cos(ang) * d}px,${Math.sin(ang) * d}px);`;
-        s.textContent = '✦';
-        layer!.appendChild(s);
-      }
-      setTimeout(() => { ring.remove(); coin.remove(); }, 750);
-      if (layer!.childElementCount > 60) layer!.firstChild && layer!.firstChild.remove();
-    }
-
-    // reacao ao clique: sempre moedas
     function react() {
       squish = 1;
-      sleeping = false; lastFloatStart = performance.now();
-      spawnCoin();
+      const px = cx + 60, py = cy + 36;
+      for (let k = 0; k < 6; k++) {
+        const el  = document.createElement('div');
+        const ang = Math.random() * Math.PI * 2;
+        const d   = 28 + Math.random() * 36;
+        el.textContent = chars[Math.floor(Math.random() * chars.length)];
+        el.style.cssText = `position:absolute;left:${px+Math.cos(ang)*d-8}px;top:${py+Math.sin(ang)*d-8}px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:${Math.random()>.5?'#2ee6d6':'#a78bff'};pointer-events:none;animation:eyefloat .9s ease-out forwards;`;
+        layer!.appendChild(el);
+        setTimeout(() => el.remove(), 950);
+      }
+      const ring = document.createElement('div');
+      ring.style.cssText = `position:absolute;left:${px-28}px;top:${py-28}px;width:56px;height:56px;border-radius:50%;border:2px solid #a78bff;animation:eyepoof .5s ease-out forwards;`;
+      layer!.appendChild(ring);
+      setTimeout(() => ring.remove(), 530);
+    }
+
+    function emote(txt: string) {
+      if (performance.now() - lastEmote < 1400) return;
+      lastEmote = lastScan = performance.now();
+      const el = document.createElement('div');
+      el.textContent = txt;
+      el.style.cssText = `position:absolute;left:${cx+75}px;top:${cy+8}px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#2ee6d6;font-weight:700;letter-spacing:.04em;pointer-events:none;animation:eyefloat 1.3s ease-out forwards;`;
+      layer!.appendChild(el);
+      setTimeout(() => el.remove(), 1350);
     }
 
     if (reduced) {
-      cloud.style.transform = `translate(${cx}px,${cy}px)`;
+      btn.style.transform = `translate(${cx}px,${cy}px)`;
     } else {
       const t0 = performance.now();
       const loop = (now: number) => {
         const t = (now - t0) / 1000;
+        const anchorX = window.innerWidth - 220 + Math.sin(t * .45) * 18;
+        const anchorY = 115 + Math.sin(t * .68) * 10;
 
-        // piscar
-        if (now > nextBlink) { blinkUntil = now + 120; nextBlink = now + 2200 + Math.random() * 3000; }
-        const blinking = now < blinkUntil;
-
-        // soneca quando parada e longe do cursor
-        const far = Math.hypot(mx - cx - 42, my - cy - 28) > 260;
-        if (mode === 'float' && far) {
-          if (!sleeping && now - lastFloatStart > 6000) { sleeping = true; emote('💤'); }
-          if (sleeping && now - lastEmote > 2600) emote('💤');
-        } else { sleeping = false; lastFloatStart = now; }
-
-        // ancora flutuante no canto + parallax suave
-        const anchorX = window.innerWidth - 150 + Math.sin(t * 0.5) * 26;
-        const anchorY = 120 + Math.sin(t * 0.8) * 12 - Math.min(scrollY * 0.04, 40);
-
-        // maquina de estados: as vezes fica curiosa, hesita, volta a flutuar
         if (now > modeUntil) {
           if (mode === 'float') {
-            if (Math.random() < 0.3) {
-              mode = 'curious'; modeUntil = now + 1400 + Math.random() * 1200;
-              if (Math.random() < 0.5) emote(Math.random() < 0.5 ? '?' : '!');
-            } else { modeUntil = now + 3000 + Math.random() * 3500; }
+            mode = Math.random() < .3 ? 'curious' : 'float';
+            modeUntil = now + 2500 + Math.random() * 3000;
           } else if (mode === 'curious') {
-            mode = 'hesitate'; modeUntil = now + 600 + Math.random() * 800;
+            mode = 'hesitate'; modeUntil = now + 500 + Math.random() * 700;
           } else {
-            mode = 'float'; modeUntil = now + 3200 + Math.random() * 3500;
+            mode = 'float'; modeUntil = now + 2800 + Math.random() * 3500;
           }
         }
 
         let tx: number, ty: number, ease: number;
-        if (mode === 'curious') {
-          tx = cx + (mx - 46 - cx) * 0.5;
-          ty = cy + (my - 78 - cy) * 0.5;
-          ease = 0.022;
-        } else if (mode === 'hesitate') {
-          tx = cx; ty = cy + Math.sin(t * 1.8) * 1.6; ease = 0.02;
+        if      (mode === 'curious')  { tx = cx+(mx-60-cx)*.5; ty = cy+(my-36-cy)*.5; ease = .022; }
+        else if (mode === 'hesitate') { tx = cx; ty = cy; ease = .014; }
+        else                          { tx = anchorX; ty = anchorY; ease = .015; }
+
+        cx += (tx-cx)*ease; cy += (ty-cy)*ease;
+        squish *= 0.84;
+        btn.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scale(${(1+squish*.2).toFixed(3)},${(1-squish*.16).toFixed(3)})`;
+
+        const dx = mx-(cx+60), dy = my-(cy+36);
+        const dist = Math.hypot(dx, dy);
+        const tpx = dist > 1 ? (dx/dist)*Math.min(dist*.11, 5) : 0;
+        const tpy = dist > 1 ? (dy/dist)*Math.min(dist*.11, 5) : 0;
+        ex += (tpx-ex)*.1; ey += (tpy-ey)*.1;
+
+        const prox = Math.max(0, 1-dist/360);
+        pupil!.setAttribute('cx', (60+ex).toFixed(2));
+        pupil!.setAttribute('cy', (36+ey).toFixed(2));
+        pupil!.setAttribute('rx', Math.max(3, 5-prox*1.5).toFixed(1));
+        pupil!.setAttribute('ry', Math.min(20, 15+prox*6).toFixed(1));
+
+        if (now > nextBlink) { blinkUntil = now+105; nextBlink = now+2000+Math.random()*3500; }
+        const bl = now < blinkUntil ? '1' : '0';
+        lidTop!.setAttribute('opacity', bl);
+        lidBot!.setAttribute('opacity', bl);
+
+        if (now > nextGlitch && !glitching) {
+          glitching = true; glitchUntil = now+60+Math.random()*140;
+          nextGlitch = now+5000+Math.random()*6000;
+        }
+        if (glitching) {
+          if (now < glitchUntil) {
+            (eyeSvg as HTMLElement).style.filter = Math.random()>.5
+              ? 'url(#gr) drop-shadow(0 0 18px rgba(167,139,255,.8))'
+              : 'url(#gc) drop-shadow(0 0 18px rgba(46,230,214,.8))';
+          } else {
+            glitching = false;
+            (eyeSvg as HTMLElement).style.filter = 'drop-shadow(0 0 20px rgba(167,139,255,.6))';
+            emote(Math.random()>.5 ? 'scan...' : '0x??');
+          }
         } else {
-          tx = anchorX; ty = anchorY; ease = 0.016;
-        }
-        const dx = tx - cx, dy = ty - cy;
-        cx += dx * ease; cy += dy * ease;
-
-        const targetTilt = Math.max(-6, Math.min(6, dx * 0.08));
-        tiltV += (targetTilt - tiltV) * 0.08;
-        squish *= 0.86;
-        const sx = 1 + squish * 0.28, sy = 1 - squish * 0.22;
-        cloud.style.transform = `translate(${cx.toFixed(2)}px,${cy.toFixed(2)}px) rotate(${tiltV.toFixed(2)}deg) scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
-
-        if (eyes) {
-          const tex = Math.max(-2.2, Math.min(2.2, (mx - cx - 45) * 0.02));
-          const tey = Math.max(-1.6, Math.min(1.6, (my - cy - 28) * 0.02));
-          ex += (tex - ex) * 0.12; ey += (tey - ey) * 0.12;
-          const bs = (blinking || sleeping) ? 0.12 : 1;
-          eyes.style.transform = `translate(${ex.toFixed(2)}px,${ey.toFixed(2)}px) scaleY(${bs})`;
+          (eyeSvg as HTMLElement).style.filter = 'drop-shadow(0 0 20px rgba(167,139,255,.55))';
         }
 
+        if (mode==='float' && dist>300 && now-lastScan>6000) emote('scanning...');
         requestAnimationFrame(loop);
       };
       requestAnimationFrame(loop);
     }
   }
 </script>
+
+<style>
+  @keyframes eyefloat {
+    0%   { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-52px); }
+  }
+  @keyframes eyepoof {
+    0%   { transform: scale(0.2); opacity: 0.85; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+</style>
