@@ -8,7 +8,7 @@ const t = useTranslations(lang);
 <div id="cti-coinlayer" aria-hidden="true"></div>
 
 <button id="cti-cloud" type="button" title={t('cloud.tip')} aria-label={t('cloud.tip')}>
-<svg id="eye-svg" width="128" height="128" viewBox="0 0 64 64" style="overflow:visible;">
+<svg id="eye-svg" width="80" height="80" viewBox="0 0 64 64" style="overflow:visible;">
   <defs>
     <radialGradient id="ec-iris" cx="42%" cy="32%" r="58%">
       <stop offset="0%"   stop-color="#e8fff8"/>
@@ -158,7 +158,7 @@ const t = useTranslations(lang);
     position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden;
   }
   #cti-cloud {
-    position: fixed; left: 0; top: 0; width: 128px; height: 128px; z-index: 55;
+    position: fixed; left: 0; top: 0; width: 80px; height: 80px; z-index: 55;
     padding: 0; border: none; background: none; cursor: pointer; pointer-events: auto;
     will-change: transform;
   }
@@ -187,7 +187,7 @@ const t = useTranslations(lang);
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let cx = window.innerWidth - 260, cy = 80;
-    let mx = cx + 64, my = cy + 64;
+    let mx = cx + 40, my = cy + 40;
     let ex = 0, ey = 0, squish = 0;
     let nextBlink  = performance.now() + 1600 + Math.random() * 2000;
     let blinkUntil = 0;
@@ -204,7 +204,7 @@ const t = useTranslations(lang);
 
     function react() {
       squish = 1;
-      const px = cx + 64, py = cy + 64;
+      const px = cx + 40, py = cy + 40;
       for (let k = 0; k < 7; k++) {
         const el  = document.createElement('div');
         const ang = Math.random() * Math.PI * 2;
@@ -215,7 +215,7 @@ const t = useTranslations(lang);
         setTimeout(() => el.remove(), 1050);
       }
       const ring = document.createElement('div');
-      ring.style.cssText = `position:absolute;left:${px-38}px;top:${py-38}px;width:76px;height:76px;border-radius:50%;border:2px solid #a78bff;pointer-events:none;animation:eyepoof .55s ease-out forwards;`;
+      ring.style.cssText = `position:absolute;left:${px-24}px;top:${py-24}px;width:48px;height:48px;border-radius:50%;border:2px solid #a78bff;pointer-events:none;animation:eyepoof .55s ease-out forwards;`;
       layer!.appendChild(ring);
       setTimeout(() => ring.remove(), 600);
     }
@@ -251,7 +251,7 @@ const t = useTranslations(lang);
         }
 
         let tx: number, ty: number, ease: number;
-        if      (mode === 'curious')  { tx = cx+(mx-64-cx)*.5; ty = cy+(my-64-cy)*.5; ease = .022; }
+        if      (mode === 'curious')  { tx = cx+(mx-40-cx)*.5; ty = cy+(my-40-cy)*.5; ease = .022; }
         else if (mode === 'hesitate') { tx = cx; ty = cy; ease = .013; }
         else                          { tx = anchorX; ty = anchorY; ease = .014; }
 
@@ -259,7 +259,7 @@ const t = useTranslations(lang);
         squish *= 0.82;
         btn.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scale(${(1+squish*.18).toFixed(3)},${(1-squish*.14).toFixed(3)})`;
 
-        const dx = mx-(cx+64), dy = my-(cy+64);
+        const dx = mx-(cx+40), dy = my-(cy+40);
         const dist = Math.hypot(dx, dy);
         const tpx = dist > 1 ? (dx/dist)*Math.min(dist*.08, 4.5) : 0;
         const tpy = dist > 1 ? (dy/dist)*Math.min(dist*.08, 4.5) : 0;

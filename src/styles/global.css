@@ -135,7 +135,7 @@ img { max-width: 100%; display: block; }
 .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: glowpulse 2s infinite; }
 .hero-name { font-family: var(--cyber); font-size: 52px; line-height: 1.08; margin: 0 0 8px; font-weight: 900; letter-spacing: 0.04em; text-transform: uppercase; background: linear-gradient(135deg, var(--purple), var(--cyan) 60%, var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glitch 7s infinite; }
 .hero-role { font-family: var(--mono); font-size: 18px; color: var(--cyan); margin: 0 0 6px; }
-.hero-quote { font-family: var(--mono); font-size: 15px; font-style: italic; color: var(--cyan); opacity: 0.72; margin: 0 0 10px; letter-spacing: 0.02em; }
+.hero-quote { font-family: var(--mono); font-size: 15px; font-style: italic; color: var(--pink); opacity: 0.72; margin: 0 0 10px; letter-spacing: 0.02em; }
 .hero-tag { font-family: var(--mono); font-size: 15px; color: var(--pink); margin: 0 0 22px; letter-spacing: 0.04em; }
 .hero-blurb { font-size: 18px; line-height: 1.7; color: var(--soft); max-width: 46ch; margin: 0 0 28px; }
 .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
