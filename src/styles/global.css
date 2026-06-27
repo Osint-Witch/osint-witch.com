@@ -130,7 +130,7 @@ img { max-width: 100%; display: block; }
 /* =========================================================================
    Hero + Terminal
    ========================================================================= */
-.hero { padding: 72px 0 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; }
+.hero { padding: 72px 0 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
 .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--green); background: rgba(94, 242, 160, 0.08); border: 1px solid rgba(94, 242, 160, 0.25); padding: 6px 12px; border-radius: 20px; margin-bottom: 22px; }
 .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: glowpulse 2s infinite; }
 .hero-name { font-family: var(--cyber); font-size: 52px; line-height: 1.08; margin: 0 0 8px; font-weight: 900; letter-spacing: 0.04em; text-transform: uppercase; background: linear-gradient(135deg, var(--purple), var(--cyan) 60%, var(--pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glitch 7s infinite; }
