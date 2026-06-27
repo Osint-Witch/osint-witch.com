@@ -81,13 +81,19 @@ const t = useTranslations(lang);
       <circle  cx="55" cy="44" r="1.4" fill="white" opacity="0.38" clip-path="url(#iris-clip)"/>
     </g>
 
-    <!-- contorno -->
+    <!-- contorno externo glow difuso -->
     <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
-          fill="none" stroke="url(#iris-g)" stroke-width="2"/>
+          fill="none" stroke="#a78bff" stroke-width="7" opacity="0.18" filter="url(#aura-blur)"/>
+    <!-- contorno principal robusto -->
+    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
+          fill="none" stroke="url(#iris-g)" stroke-width="4" stroke-linecap="round"/>
+    <!-- borda interna fina para profundidade -->
+    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
+          fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.12"/>
 
-    <!-- cantos -->
-    <circle cx="4"   cy="36" r="2.5" fill="#a78bff" opacity="0.8"/>
-    <circle cx="116" cy="36" r="2.5" fill="#2ee6d6" opacity="0.8"/>
+    <!-- cantos robustos -->
+    <circle cx="4"   cy="36" r="4" fill="#a78bff" opacity="0.9"/>
+    <circle cx="116" cy="36" r="4" fill="#2ee6d6" opacity="0.9"/>
 
     <!-- pálpebras -->
     <path id="eye-lid-top" d="M4,36 C30,8  90,8  116,36 Z" fill="#07060f" opacity="0"/>
