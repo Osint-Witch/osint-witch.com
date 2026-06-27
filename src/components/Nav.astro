@@ -19,9 +19,59 @@ const blogHref = localizedPath(lang, 'blog');
   <div class="nav-inner">
     <a class="brand" href={homeHref} aria-label="OSINT W1tch">
       <span class="brand-badge">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none">
-          <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.4"/>
-          <path d="M12,3 L17.29,19.28 L3.44,9.22 L20.56,9.22 L6.71,19.28 Z" fill="currentColor" fill-rule="evenodd"/>
+        <svg viewBox="0 0 64 64" width="32" height="32" style="display:block;">
+          <defs>
+            <radialGradient id="nb-iris" cx="42%" cy="32%" r="58%">
+              <stop offset="0%"   stop-color="#e8fff8"/>
+              <stop offset="8%"   stop-color="#5cffd8"/>
+              <stop offset="28%"  stop-color="#a78bff"/>
+              <stop offset="52%"  stop-color="#6b22d4"/>
+              <stop offset="72%"  stop-color="#2d0a80"/>
+              <stop offset="100%" stop-color="#060018"/>
+            </radialGradient>
+            <radialGradient id="nb-sclera" cx="46%" cy="36%" r="62%">
+              <stop offset="0%"   stop-color="#f5f0ff"/>
+              <stop offset="55%"  stop-color="#e4deff"/>
+              <stop offset="100%" stop-color="#a898d0"/>
+            </radialGradient>
+            <radialGradient id="nb-gloss" cx="40%" cy="18%" r="72%">
+              <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.42"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="nb-shadow" cx="50%" cy="0%" r="80%">
+              <stop offset="0%"   stop-color="#05000f" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#05000f" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="nb-lid-top" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#a78bff"/>
+              <stop offset="50%"  stop-color="#e0d8ff"/>
+              <stop offset="100%" stop-color="#2ee6d6"/>
+            </linearGradient>
+            <linearGradient id="nb-lid-bot" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#7b55cc"/>
+              <stop offset="100%" stop-color="#22b0a8"/>
+            </linearGradient>
+            <clipPath id="nb-clip">
+              <path d="M6,32 C22,10 42,10 58,32 C42,54 22,54 6,32 Z"/>
+            </clipPath>
+          </defs>
+          <path d="M6,32 C22,10 42,10 58,32 C42,54 22,54 6,32 Z" fill="url(#nb-sclera)"/>
+          <g clip-path="url(#nb-clip)">
+            <circle cx="32" cy="32" r="14" fill="url(#nb-iris)"/>
+            <circle cx="32" cy="32" r="14" fill="none" stroke="#040010" stroke-width="3.5"/>
+            <ellipse cx="32" cy="32" rx="3.2" ry="9.5" fill="#010008"/>
+            <ellipse cx="32" cy="32" rx="2"   ry="8"   fill="#000005"/>
+            <ellipse cx="32" cy="14" rx="22" ry="14" fill="url(#nb-shadow)"/>
+            <ellipse cx="30" cy="26" rx="16" ry="10" fill="url(#nb-gloss)" transform="rotate(-8 30 26)"/>
+            <ellipse cx="37" cy="24" rx="4.5" ry="2.6" fill="white" opacity="0.95" transform="rotate(-22 37 24)"/>
+            <circle  cx="25" cy="40" r="1.8" fill="white" opacity="0.35"/>
+          </g>
+          <path d="M6,32 C22,10 42,10 58,32" fill="none" stroke="url(#nb-lid-top)" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M6,32 C22,54 42,54 58,32" fill="none" stroke="url(#nb-lid-bot)" stroke-width="2"   stroke-linecap="round"/>
+          <circle cx="6"  cy="32" r="3.5" fill="#8855ee" opacity="0.95"/>
+          <circle cx="6"  cy="31" r="1.2" fill="white"   opacity="0.6"/>
+          <circle cx="58" cy="32" r="3.5" fill="#22ccbe" opacity="0.95"/>
+          <circle cx="58" cy="31" r="1.2" fill="white"   opacity="0.6"/>
         </svg>
       </span>
       <span class="brand-text">osint-witch<span>.com</span></span>

@@ -1,11 +1,115 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#a78bff"/>
-      <stop offset="1" stop-color="#2ee6d6"/>
+    <linearGradient id="fv-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a0840"/>
+      <stop offset="1" stop-color="#06111e"/>
     </linearGradient>
+    <radialGradient id="fv-iris" cx="42%" cy="32%" r="58%">
+      <stop offset="0%"   stop-color="#e8fff8"/>
+      <stop offset="8%"   stop-color="#5cffd8"/>
+      <stop offset="28%"  stop-color="#a78bff"/>
+      <stop offset="52%"  stop-color="#6b22d4"/>
+      <stop offset="72%"  stop-color="#2d0a80"/>
+      <stop offset="88%"  stop-color="#110535"/>
+      <stop offset="100%" stop-color="#060018"/>
+    </radialGradient>
+    <radialGradient id="fv-sclera" cx="46%" cy="36%" r="62%">
+      <stop offset="0%"   stop-color="#f5f0ff"/>
+      <stop offset="55%"  stop-color="#e4deff"/>
+      <stop offset="88%"  stop-color="#c8beed"/>
+      <stop offset="100%" stop-color="#a898d0"/>
+    </radialGradient>
+    <radialGradient id="fv-gloss" cx="40%" cy="18%" r="72%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.42"/>
+      <stop offset="45%"  stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="fv-shadow" cx="50%" cy="0%" r="80%">
+      <stop offset="0%"   stop-color="#05000f" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#05000f" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fv-lid-top" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a78bff"/>
+      <stop offset="50%"  stop-color="#e0d8ff"/>
+      <stop offset="100%" stop-color="#2ee6d6"/>
+    </linearGradient>
+    <linearGradient id="fv-lid-bot" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#7b55cc"/>
+      <stop offset="50%"  stop-color="#b0a0e8"/>
+      <stop offset="100%" stop-color="#22b0a8"/>
+    </linearGradient>
+    <filter id="fv-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fv-drop" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#5500cc" flood-opacity="0.6"/>
+    </filter>
+    <clipPath id="fv-eye-clip">
+      <path d="M6,32 C22,10 42,10 58,32 C42,54 22,54 6,32 Z"/>
+    </clipPath>
   </defs>
-  <rect width="64" height="64" rx="16" fill="url(#g)"/>
-  <circle cx="32" cy="32" r="22" fill="none" stroke="#07060f" stroke-width="2"/>
-  <path d="M32,10 L44.93,49.80 L11.08,25.20 L52.92,25.20 L19.07,49.80 Z" fill="#07060f" fill-rule="evenodd"/>
+
+  <!-- fundo arredondado -->
+  <rect width="64" height="64" rx="14" fill="url(#fv-bg)"/>
+
+  <!-- sombra projetada -->
+  <ellipse cx="32" cy="39" rx="20" ry="5" fill="#3a00aa" opacity="0.3" filter="url(#fv-drop)"/>
+
+  <!-- esclera -->
+  <path d="M6,32 C22,10 42,10 58,32 C42,54 22,54 6,32 Z" fill="url(#fv-sclera)"/>
+
+  <g clip-path="url(#fv-eye-clip)">
+    <!-- íris -->
+    <circle cx="32" cy="32" r="14" fill="url(#fv-iris)"/>
+
+    <!-- fibras radiais -->
+    <g opacity="0.22">
+      <line x1="32" y1="22" x2="32" y2="19.5" stroke="#2ee6d6" stroke-width="0.8"/>
+      <line x1="36" y1="23" x2="38.5" y2="20.5" stroke="#a78bff" stroke-width="0.7"/>
+      <line x1="39.5" y1="27" x2="42.5" y2="24.5" stroke="#2ee6d6" stroke-width="0.7"/>
+      <line x1="41" y1="32" x2="44.5" y2="32" stroke="#a78bff" stroke-width="0.7"/>
+      <line x1="39.5" y1="37" x2="42.5" y2="39.5" stroke="#2ee6d6" stroke-width="0.7"/>
+      <line x1="36" y1="41" x2="38.5" y2="43.5" stroke="#a78bff" stroke-width="0.7"/>
+      <line x1="32" y1="42" x2="32" y2="44.5" stroke="#2ee6d6" stroke-width="0.8"/>
+      <line x1="28" y1="41" x2="25.5" y2="43.5" stroke="#a78bff" stroke-width="0.7"/>
+      <line x1="24.5" y1="37" x2="21.5" y2="39.5" stroke="#2ee6d6" stroke-width="0.7"/>
+      <line x1="23" y1="32" x2="19.5" y2="32" stroke="#a78bff" stroke-width="0.7"/>
+      <line x1="24.5" y1="27" x2="21.5" y2="24.5" stroke="#2ee6d6" stroke-width="0.7"/>
+      <line x1="28" y1="23" x2="25.5" y2="20.5" stroke="#a78bff" stroke-width="0.7"/>
+    </g>
+
+    <!-- anel limbal -->
+    <circle cx="32" cy="32" r="14" fill="none" stroke="#040010" stroke-width="3.5"/>
+
+    <!-- pupila -->
+    <ellipse cx="32" cy="32" rx="3.2" ry="9.5" fill="#010008"/>
+    <ellipse cx="32" cy="32" rx="2"   ry="8"   fill="#000005"/>
+
+    <!-- sombra pálpebra -->
+    <ellipse cx="32" cy="14" rx="22" ry="14" fill="url(#fv-shadow)"/>
+
+    <!-- cornea gloss -->
+    <ellipse cx="30" cy="26" rx="16" ry="10"
+             fill="url(#fv-gloss)" transform="rotate(-8 30 26)"/>
+
+    <!-- catchlight -->
+    <ellipse cx="37" cy="24" rx="4.5" ry="2.6" fill="white" opacity="0.96"
+             transform="rotate(-22 37 24)" filter="url(#fv-glow)"/>
+    <circle cx="25" cy="40" r="1.8" fill="white" opacity="0.36"/>
+  </g>
+
+  <!-- bordas -->
+  <path d="M6,32 C22,10 42,10 58,32"
+        fill="none" stroke="url(#fv-lid-top)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M6,32 C22,10 42,10 58,32"
+        fill="none" stroke="white" stroke-width="0.7" stroke-linecap="round" opacity="0.2"/>
+  <path d="M6,32 C22,54 42,54 58,32"
+        fill="none" stroke="url(#fv-lid-bot)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- cantos -->
+  <circle cx="6"  cy="32" r="3.5" fill="#8855ee" opacity="0.95"/>
+  <circle cx="6"  cy="31" r="1.2" fill="white"   opacity="0.6"/>
+  <circle cx="58" cy="32" r="3.5" fill="#22ccbe" opacity="0.95"/>
+  <circle cx="58" cy="31" r="1.2" fill="white"   opacity="0.6"/>
 </svg>

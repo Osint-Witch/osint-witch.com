@@ -8,97 +8,149 @@ const t = useTranslations(lang);
 <div id="cti-coinlayer" aria-hidden="true"></div>
 
 <button id="cti-cloud" type="button" title={t('cloud.tip')} aria-label={t('cloud.tip')}>
-  <svg id="eye-svg" width="140" height="90" viewBox="0 0 120 72" style="overflow:visible;">
-    <defs>
-      <radialGradient id="iris-g" cx="44%" cy="38%" r="56%">
-        <stop offset="0%"   stop-color="#eefffd"/>
-        <stop offset="12%"  stop-color="#2ee6d6"/>
-        <stop offset="42%"  stop-color="#a78bff"/>
-        <stop offset="70%"  stop-color="#5a18b0"/>
-        <stop offset="88%"  stop-color="#1e0850"/>
-        <stop offset="100%" stop-color="#080120"/>
-      </radialGradient>
-      <radialGradient id="sclera-g" cx="50%" cy="42%" r="58%">
-        <stop offset="0%"   stop-color="#f8f4ff"/>
-        <stop offset="100%" stop-color="#d4cef5"/>
-      </radialGradient>
-      <radialGradient id="aura-g" cx="50%" cy="50%" r="50%">
-        <stop offset="0%"   stop-color="#a78bff" stop-opacity="0.28"/>
-        <stop offset="100%" stop-color="#a78bff" stop-opacity="0"/>
-      </radialGradient>
-      <filter id="iris-glow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="3.5" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="aura-blur" x="-80%" y="-80%" width="260%" height="260%">
-        <feGaussianBlur stdDeviation="11"/>
-      </filter>
-      <filter id="gr" x="-8%" y="-8%" width="116%" height="116%">
-        <feOffset dx="5" dy="-1" result="o"/>
-        <feFlood flood-color="#ff6ec7" flood-opacity="0.6" result="c"/>
-        <feComposite in="c" in2="o" operator="in" result="g"/>
-        <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="gc" x="-8%" y="-8%" width="116%" height="116%">
-        <feOffset dx="-5" dy="1" result="o"/>
-        <feFlood flood-color="#2ee6d6" flood-opacity="0.6" result="c"/>
-        <feComposite in="c" in2="o" operator="in" result="g"/>
-        <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <clipPath id="eye-clip">
-        <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"/>
-      </clipPath>
-      <clipPath id="iris-clip">
-        <circle cx="60" cy="36" r="22"/>
-      </clipPath>
-    </defs>
+<svg id="eye-svg" width="128" height="128" viewBox="0 0 64 64" style="overflow:visible;">
+  <defs>
+    <radialGradient id="ec-iris" cx="42%" cy="32%" r="58%">
+      <stop offset="0%"   stop-color="#e8fff8"/>
+      <stop offset="8%"   stop-color="#5cffd8"/>
+      <stop offset="28%"  stop-color="#a78bff"/>
+      <stop offset="52%"  stop-color="#6b22d4"/>
+      <stop offset="72%"  stop-color="#2d0a80"/>
+      <stop offset="88%"  stop-color="#110535"/>
+      <stop offset="100%" stop-color="#060018"/>
+    </radialGradient>
+    <radialGradient id="ec-sclera" cx="46%" cy="36%" r="62%">
+      <stop offset="0%"   stop-color="#f5f0ff"/>
+      <stop offset="55%"  stop-color="#e4deff"/>
+      <stop offset="88%"  stop-color="#c8beed"/>
+      <stop offset="100%" stop-color="#a898d0"/>
+    </radialGradient>
+    <radialGradient id="ec-gloss" cx="40%" cy="18%" r="72%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.42"/>
+      <stop offset="45%"  stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ec-shadow" cx="50%" cy="0%" r="80%">
+      <stop offset="0%"   stop-color="#05000f" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#05000f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ec-aura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#a78bff" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#a78bff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ec-lid-top" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#a78bff"/>
+      <stop offset="50%"  stop-color="#e0d8ff"/>
+      <stop offset="100%" stop-color="#2ee6d6"/>
+    </linearGradient>
+    <linearGradient id="ec-lid-bot" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#7b55cc"/>
+      <stop offset="50%"  stop-color="#b0a0e8"/>
+      <stop offset="100%" stop-color="#22b0a8"/>
+    </linearGradient>
+    <filter id="ec-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ec-drop" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#5500cc" flood-opacity="0.6"/>
+    </filter>
+    <filter id="ec-aura-blur" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+    <filter id="ec-gr" x="-12%" y="-12%" width="124%" height="124%">
+      <feOffset dx="4" dy="-1" result="o"/>
+      <feFlood flood-color="#ff6ec7" flood-opacity="0.65" result="c"/>
+      <feComposite in="c" in2="o" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ec-gc" x="-12%" y="-12%" width="124%" height="124%">
+      <feOffset dx="-4" dy="1" result="o"/>
+      <feFlood flood-color="#2ee6d6" flood-opacity="0.65" result="c"/>
+      <feComposite in="c" in2="o" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <clipPath id="ec-eye-clip">
+      <path d="M6,32 C22,10 42,10 58,32 C42,54 22,54 6,32 Z"/>
+    </clipPath>
+  </defs>
 
-    <!-- aura -->
-    <ellipse cx="60" cy="36" rx="58" ry="36"
-             fill="url(#aura-g)" filter="url(#aura-blur)"/>
+  <!-- aura -->
+  <ellipse cx="32" cy="32" rx="30" ry="24" fill="url(#ec-aura)" filter="url(#ec-aura-blur)"/>
 
-    <!-- esclera -->
-    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
-          fill="url(#sclera-g)"/>
+  <!-- sombra projetada -->
+  <ellipse cx="32" cy="40" rx="22" ry="6" fill="#3a00aa" opacity="0.28" filter="url(#ec-drop)"/>
 
-    <!-- íris + pupila -->
-    <g clip-path="url(#eye-clip)">
-      <circle cx="60" cy="36" r="22" fill="url(#iris-g)" filter="url(#iris-glow)"/>
+  <!-- esclera -->
+  <path d="M6,32 C22,10 42,10 58,32 C42,54 22,54 6,32 Z"
+        fill="url(#ec-sclera)" filter="url(#ec-drop)"/>
 
-      <g id="eye-fibers" clip-path="url(#iris-clip)" opacity="0.28"></g>
+  <g clip-path="url(#ec-eye-clip)">
+    <!-- íris + pupila (grupo que se move com cursor) -->
+    <g id="ec-iris-group">
+      <circle cx="32" cy="32" r="14" fill="url(#ec-iris)"/>
 
-      <circle cx="60" cy="36" r="20" fill="none" stroke="#2ee6d6" stroke-width="0.7" opacity="0.45" clip-path="url(#iris-clip)"/>
-      <circle cx="60" cy="36" r="15" fill="none" stroke="#a78bff" stroke-width="0.5" opacity="0.4"  clip-path="url(#iris-clip)"/>
-      <circle cx="60" cy="36" r="10" fill="none" stroke="#2ee6d6" stroke-width="0.4" opacity="0.3"  clip-path="url(#iris-clip)"/>
+      <!-- fibras radiais (coordenadas dentro do raio da íris) -->
+      <g opacity="0.22">
+        <line x1="32" y1="22" x2="32" y2="19.5" stroke="#2ee6d6" stroke-width="0.8"/>
+        <line x1="36" y1="23" x2="38.5" y2="20.5" stroke="#a78bff" stroke-width="0.7"/>
+        <line x1="39.5" y1="27" x2="42.5" y2="24.5" stroke="#2ee6d6" stroke-width="0.7"/>
+        <line x1="41" y1="32" x2="44.5" y2="32" stroke="#a78bff" stroke-width="0.7"/>
+        <line x1="39.5" y1="37" x2="42.5" y2="39.5" stroke="#2ee6d6" stroke-width="0.7"/>
+        <line x1="36" y1="41" x2="38.5" y2="43.5" stroke="#a78bff" stroke-width="0.7"/>
+        <line x1="32" y1="42" x2="32" y2="44.5" stroke="#2ee6d6" stroke-width="0.8"/>
+        <line x1="28" y1="41" x2="25.5" y2="43.5" stroke="#a78bff" stroke-width="0.7"/>
+        <line x1="24.5" y1="37" x2="21.5" y2="39.5" stroke="#2ee6d6" stroke-width="0.7"/>
+        <line x1="23" y1="32" x2="19.5" y2="32" stroke="#a78bff" stroke-width="0.7"/>
+        <line x1="24.5" y1="27" x2="21.5" y2="24.5" stroke="#2ee6d6" stroke-width="0.7"/>
+        <line x1="28" y1="23" x2="25.5" y2="20.5" stroke="#a78bff" stroke-width="0.7"/>
+        <line x1="37.5" y1="25" x2="40" y2="22.5" stroke="#2ee6d6" stroke-width="0.5"/>
+        <line x1="26.5" y1="25" x2="24" y2="22.5" stroke="#a78bff" stroke-width="0.5"/>
+        <line x1="37.5" y1="39" x2="40" y2="41.5" stroke="#a78bff" stroke-width="0.5"/>
+        <line x1="26.5" y1="39" x2="24" y2="41.5" stroke="#2ee6d6" stroke-width="0.5"/>
+      </g>
 
-      <circle cx="60" cy="36" r="22" fill="none" stroke="#040110" stroke-width="4.5" clip-path="url(#iris-clip)"/>
+      <!-- anel limbal -->
+      <circle cx="32" cy="32" r="14" fill="none" stroke="#040010" stroke-width="3.5"/>
 
-      <ellipse id="eye-pupil" cx="60" cy="36" rx="5" ry="15" fill="#020110" clip-path="url(#iris-clip)"/>
-      <ellipse               cx="60" cy="36" rx="3.5" ry="13.5" fill="#00000a" clip-path="url(#iris-clip)"/>
-
-      <ellipse cx="65" cy="27" rx="4" ry="2.4" fill="white" opacity="0.92"
-               transform="rotate(-18 65 27)" clip-path="url(#iris-clip)"/>
-      <circle  cx="55" cy="44" r="1.4" fill="white" opacity="0.38" clip-path="url(#iris-clip)"/>
+      <!-- pupila fenda vertical -->
+      <ellipse id="ec-pupil"       cx="32" cy="32" rx="3.2" ry="9.5" fill="#010008"/>
+      <ellipse id="ec-pupil-inner" cx="32" cy="32" rx="2"   ry="8"   fill="#000005"/>
+      <ellipse id="ec-pupil-shine" cx="33.2" cy="29" rx="1.1" ry="0.7"
+               fill="white" opacity="0.65" transform="rotate(-15 33.2 29)"/>
     </g>
 
-    <!-- contorno externo glow difuso -->
-    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
-          fill="none" stroke="#a78bff" stroke-width="7" opacity="0.18" filter="url(#aura-blur)"/>
-    <!-- contorno principal robusto -->
-    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
-          fill="none" stroke="url(#iris-g)" stroke-width="4" stroke-linecap="round"/>
-    <!-- borda interna fina para profundidade -->
-    <path d="M4,36 C30,8 90,8 116,36 C90,64 30,64 4,36 Z"
-          fill="none" stroke="#ffffff" stroke-width="0.8" opacity="0.12"/>
+    <!-- sombra da pálpebra superior (fixa) -->
+    <ellipse cx="32" cy="14" rx="22" ry="14" fill="url(#ec-shadow)"/>
 
-    <!-- cantos robustos -->
-    <circle cx="4"   cy="36" r="4" fill="#a78bff" opacity="0.9"/>
-    <circle cx="116" cy="36" r="4" fill="#2ee6d6" opacity="0.9"/>
+    <!-- cornea gloss (fixa — reflexo do ambiente) -->
+    <ellipse cx="30" cy="26" rx="16" ry="10"
+             fill="url(#ec-gloss)" transform="rotate(-8 30 26)"/>
 
-    <!-- pálpebras -->
-    <path id="eye-lid-top" d="M4,36 C30,8  90,8  116,36 Z" fill="#07060f" opacity="0"/>
-    <path id="eye-lid-bot" d="M4,36 C30,64 90,64 116,36 Z" fill="#07060f" opacity="0"/>
-  </svg>
+    <!-- catchlights (fixas) -->
+    <ellipse cx="37" cy="24" rx="4.5" ry="2.6" fill="white" opacity="0.96"
+             transform="rotate(-22 37 24)" filter="url(#ec-glow)"/>
+    <circle cx="25" cy="40" r="1.8" fill="white" opacity="0.36"/>
+  </g>
+
+  <!-- bordas robustas -->
+  <path d="M6,32 C22,10 42,10 58,32"
+        fill="none" stroke="url(#ec-lid-top)" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M6,32 C22,10 42,10 58,32"
+        fill="none" stroke="white" stroke-width="0.7" stroke-linecap="round" opacity="0.2"/>
+  <path d="M6,32 C22,54 42,54 58,32"
+        fill="none" stroke="url(#ec-lid-bot)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- cantos 3D -->
+  <circle cx="6"  cy="32" r="3.5" fill="#8855ee" opacity="0.95"/>
+  <circle cx="6"  cy="31" r="1.2" fill="white"   opacity="0.6"/>
+  <circle cx="58" cy="32" r="3.5" fill="#22ccbe" opacity="0.95"/>
+  <circle cx="58" cy="31" r="1.2" fill="white"   opacity="0.6"/>
+
+  <!-- pálpebras blink -->
+  <path id="ec-lid-top-blink" d="M6,32 C22,10 42,10 58,32 Z" fill="#07060f" opacity="0"/>
+  <path id="ec-lid-bot-blink" d="M6,32 C22,54 42,54 58,32 Z" fill="#07060f" opacity="0"/>
+</svg>
 </button>
 
 <style>
@@ -106,44 +158,38 @@ const t = useTranslations(lang);
     position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden;
   }
   #cti-cloud {
-    position: fixed; left: 0; top: 0; width: 140px; height: 90px; z-index: 55;
+    position: fixed; left: 0; top: 0; width: 128px; height: 128px; z-index: 55;
     padding: 0; border: none; background: none; cursor: pointer; pointer-events: auto;
     will-change: transform;
+  }
+  @keyframes eyefloat {
+    0%   { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-52px); }
+  }
+  @keyframes eyepoof {
+    0%   { transform: scale(0.2); opacity: 0.85; }
+    100% { transform: scale(2.8); opacity: 0; }
   }
 </style>
 
 <script>
-  const btn    = document.getElementById('cti-cloud');
-  const eyeSvg = document.getElementById('eye-svg');
-  const pupil  = document.getElementById('eye-pupil');
-  const lidTop = document.getElementById('eye-lid-top');
-  const lidBot = document.getElementById('eye-lid-bot');
-  const layer  = document.getElementById('cti-coinlayer');
-  const fibers = document.getElementById('eye-fibers');
+  const btn      = document.getElementById('cti-cloud');
+  const eyeSvg   = document.getElementById('eye-svg');
+  const irisGrp  = document.getElementById('ec-iris-group');
+  const pupil    = document.getElementById('ec-pupil');
+  const pupilIn  = document.getElementById('ec-pupil-inner');
+  const shine    = document.getElementById('ec-pupil-shine');
+  const lidTop   = document.getElementById('ec-lid-top-blink');
+  const lidBot   = document.getElementById('ec-lid-bot-blink');
+  const layer    = document.getElementById('cti-coinlayer');
 
-  if (btn && eyeSvg && pupil && lidTop && lidBot && layer && fibers) {
+  if (btn && eyeSvg && irisGrp && pupil && pupilIn && shine && lidTop && lidBot && layer) {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // gera fibras radiais da iris
-    const ns = 'http://www.w3.org/2000/svg';
-    for (let i = 0; i < 56; i++) {
-      const ang = (i / 56) * Math.PI * 2 + (Math.random() - .5) * .12;
-      const r0  = 5  + Math.random() * 4;
-      const r1  = 17 + Math.random() * 4;
-      const ln  = document.createElementNS(ns, 'line');
-      ln.setAttribute('x1', (60 + Math.cos(ang) * r0).toFixed(2));
-      ln.setAttribute('y1', (36 + Math.sin(ang) * r0).toFixed(2));
-      ln.setAttribute('x2', (60 + Math.cos(ang) * r1).toFixed(2));
-      ln.setAttribute('y2', (36 + Math.sin(ang) * r1).toFixed(2));
-      ln.setAttribute('stroke', Math.random() > .5 ? '#2ee6d6' : '#c9bfff');
-      ln.setAttribute('stroke-width', (.45 + Math.random() * .65).toFixed(2));
-      fibers.appendChild(ln);
-    }
-
-    let cx = window.innerWidth - 220, cy = 110;
-    let mx = cx, my = cy;
+    let cx = window.innerWidth - 260, cy = 80;
+    let mx = cx + 64, my = cy + 64;
     let ex = 0, ey = 0, squish = 0;
-    let nextBlink  = performance.now() + 1800 + Math.random() * 2200;
+    let nextBlink  = performance.now() + 1600 + Math.random() * 2000;
     let blinkUntil = 0;
     let nextGlitch = performance.now() + 4000 + Math.random() * 5000;
     let glitching  = false, glitchUntil = 0;
@@ -151,28 +197,27 @@ const t = useTranslations(lang);
     let modeUntil  = performance.now() + 3000;
     let lastEmote  = 0, lastScan = performance.now();
 
-    window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-    window.addEventListener('scroll', () => {}, { passive: true });
+    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
     btn.addEventListener('click', react);
 
     const chars = ['0x', '//', '>>', '##', '??', '01', 'FF', '&&'];
 
     function react() {
       squish = 1;
-      const px = cx + 60, py = cy + 36;
-      for (let k = 0; k < 6; k++) {
+      const px = cx + 64, py = cy + 64;
+      for (let k = 0; k < 7; k++) {
         const el  = document.createElement('div');
         const ang = Math.random() * Math.PI * 2;
-        const d   = 28 + Math.random() * 36;
+        const d   = 36 + Math.random() * 44;
         el.textContent = chars[Math.floor(Math.random() * chars.length)];
-        el.style.cssText = `position:absolute;left:${px+Math.cos(ang)*d-8}px;top:${py+Math.sin(ang)*d-8}px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:${Math.random()>.5?'#2ee6d6':'#a78bff'};pointer-events:none;animation:eyefloat .9s ease-out forwards;`;
+        el.style.cssText = `position:absolute;left:${px+Math.cos(ang)*d-10}px;top:${py+Math.sin(ang)*d-10}px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:${Math.random()>.5?'#2ee6d6':'#a78bff'};pointer-events:none;animation:eyefloat 1s ease-out forwards;`;
         layer!.appendChild(el);
-        setTimeout(() => el.remove(), 950);
+        setTimeout(() => el.remove(), 1050);
       }
       const ring = document.createElement('div');
-      ring.style.cssText = `position:absolute;left:${px-28}px;top:${py-28}px;width:56px;height:56px;border-radius:50%;border:2px solid #a78bff;animation:eyepoof .5s ease-out forwards;`;
+      ring.style.cssText = `position:absolute;left:${px-38}px;top:${py-38}px;width:76px;height:76px;border-radius:50%;border:2px solid #a78bff;pointer-events:none;animation:eyepoof .55s ease-out forwards;`;
       layer!.appendChild(ring);
-      setTimeout(() => ring.remove(), 530);
+      setTimeout(() => ring.remove(), 600);
     }
 
     function emote(txt: string) {
@@ -180,9 +225,9 @@ const t = useTranslations(lang);
       lastEmote = lastScan = performance.now();
       const el = document.createElement('div');
       el.textContent = txt;
-      el.style.cssText = `position:absolute;left:${cx+75}px;top:${cy+8}px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#2ee6d6;font-weight:700;letter-spacing:.04em;pointer-events:none;animation:eyefloat 1.3s ease-out forwards;`;
+      el.style.cssText = `position:absolute;left:${cx+100}px;top:${cy+20}px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#2ee6d6;font-weight:700;letter-spacing:.04em;pointer-events:none;animation:eyefloat 1.4s ease-out forwards;`;
       layer!.appendChild(el);
-      setTimeout(() => el.remove(), 1350);
+      setTimeout(() => el.remove(), 1450);
     }
 
     if (reduced) {
@@ -191,62 +236,72 @@ const t = useTranslations(lang);
       const t0 = performance.now();
       const loop = (now: number) => {
         const t = (now - t0) / 1000;
-        const anchorX = window.innerWidth - 220 + Math.sin(t * .45) * 18;
-        const anchorY = 115 + Math.sin(t * .68) * 10;
+        const anchorX = window.innerWidth - 260 + Math.sin(t * .42) * 22;
+        const anchorY = 80 + Math.sin(t * .65) * 14;
 
         if (now > modeUntil) {
           if (mode === 'float') {
-            mode = Math.random() < .3 ? 'curious' : 'float';
-            modeUntil = now + 2500 + Math.random() * 3000;
+            mode = Math.random() < .28 ? 'curious' : 'float';
+            modeUntil = now + 2200 + Math.random() * 3200;
           } else if (mode === 'curious') {
-            mode = 'hesitate'; modeUntil = now + 500 + Math.random() * 700;
+            mode = 'hesitate'; modeUntil = now + 400 + Math.random() * 700;
           } else {
-            mode = 'float'; modeUntil = now + 2800 + Math.random() * 3500;
+            mode = 'float'; modeUntil = now + 2600 + Math.random() * 3600;
           }
         }
 
         let tx: number, ty: number, ease: number;
-        if      (mode === 'curious')  { tx = cx+(mx-60-cx)*.5; ty = cy+(my-36-cy)*.5; ease = .022; }
-        else if (mode === 'hesitate') { tx = cx; ty = cy; ease = .014; }
-        else                          { tx = anchorX; ty = anchorY; ease = .015; }
+        if      (mode === 'curious')  { tx = cx+(mx-64-cx)*.5; ty = cy+(my-64-cy)*.5; ease = .022; }
+        else if (mode === 'hesitate') { tx = cx; ty = cy; ease = .013; }
+        else                          { tx = anchorX; ty = anchorY; ease = .014; }
 
         cx += (tx-cx)*ease; cy += (ty-cy)*ease;
-        squish *= 0.84;
-        btn.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scale(${(1+squish*.2).toFixed(3)},${(1-squish*.16).toFixed(3)})`;
+        squish *= 0.82;
+        btn.style.transform = `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scale(${(1+squish*.18).toFixed(3)},${(1-squish*.14).toFixed(3)})`;
 
-        const dx = mx-(cx+60), dy = my-(cy+36);
+        const dx = mx-(cx+64), dy = my-(cy+64);
         const dist = Math.hypot(dx, dy);
-        const tpx = dist > 1 ? (dx/dist)*Math.min(dist*.11, 5) : 0;
-        const tpy = dist > 1 ? (dy/dist)*Math.min(dist*.11, 5) : 0;
+        const tpx = dist > 1 ? (dx/dist)*Math.min(dist*.08, 4.5) : 0;
+        const tpy = dist > 1 ? (dy/dist)*Math.min(dist*.08, 4.5) : 0;
         ex += (tpx-ex)*.1; ey += (tpy-ey)*.1;
 
-        const prox = Math.max(0, 1-dist/360);
-        pupil!.setAttribute('cx', (60+ex).toFixed(2));
-        pupil!.setAttribute('cy', (36+ey).toFixed(2));
-        pupil!.setAttribute('rx', Math.max(3, 5-prox*1.5).toFixed(1));
-        pupil!.setAttribute('ry', Math.min(20, 15+prox*6).toFixed(1));
+        const prox = Math.max(0, 1-dist/380);
+        const pCx = (32+ex).toFixed(2);
+        const pCy = (32+ey).toFixed(2);
+        pupil!.setAttribute('cx', pCx);
+        pupil!.setAttribute('cy', pCy);
+        pupilIn!.setAttribute('cx', pCx);
+        pupilIn!.setAttribute('cy', pCy);
+        shine!.setAttribute('cx', (33.2+ex*.7).toFixed(2));
+        shine!.setAttribute('cy', (29+ey*.7).toFixed(2));
+        irisGrp!.setAttribute('transform', `translate(${(ex*.35).toFixed(2)},${(ey*.35).toFixed(2)})`);
 
-        if (now > nextBlink) { blinkUntil = now+105; nextBlink = now+2000+Math.random()*3500; }
+        pupil!.setAttribute('rx', Math.max(2.2, 3.2-prox*1.2).toFixed(1));
+        pupil!.setAttribute('ry', Math.min(12.5, 9.5+prox*4).toFixed(1));
+        pupilIn!.setAttribute('rx', Math.max(1.4, 2-prox*.8).toFixed(1));
+        pupilIn!.setAttribute('ry', Math.min(11, 8+prox*3.5).toFixed(1));
+
+        if (now > nextBlink) { blinkUntil = now+100; nextBlink = now+1800+Math.random()*3200; }
         const bl = now < blinkUntil ? '1' : '0';
         lidTop!.setAttribute('opacity', bl);
         lidBot!.setAttribute('opacity', bl);
 
         if (now > nextGlitch && !glitching) {
-          glitching = true; glitchUntil = now+60+Math.random()*140;
-          nextGlitch = now+5000+Math.random()*6000;
+          glitching = true; glitchUntil = now+55+Math.random()*130;
+          nextGlitch = now+5000+Math.random()*7000;
         }
         if (glitching) {
           if (now < glitchUntil) {
             (eyeSvg as HTMLElement).style.filter = Math.random()>.5
-              ? 'url(#gr) drop-shadow(0 0 18px rgba(167,139,255,.8))'
-              : 'url(#gc) drop-shadow(0 0 18px rgba(46,230,214,.8))';
+              ? 'url(#ec-gr) drop-shadow(0 0 22px rgba(167,139,255,.9))'
+              : 'url(#ec-gc) drop-shadow(0 0 22px rgba(46,230,214,.9))';
           } else {
             glitching = false;
-            (eyeSvg as HTMLElement).style.filter = 'drop-shadow(0 0 20px rgba(167,139,255,.6))';
+            (eyeSvg as HTMLElement).style.filter = 'drop-shadow(0 0 24px rgba(167,139,255,.6))';
             emote(Math.random()>.5 ? 'scan...' : '0x??');
           }
         } else {
-          (eyeSvg as HTMLElement).style.filter = 'drop-shadow(0 0 20px rgba(167,139,255,.55))';
+          (eyeSvg as HTMLElement).style.filter = 'drop-shadow(0 0 24px rgba(167,139,255,.5))';
         }
 
         if (mode==='float' && dist>300 && now-lastScan>6000) emote('scanning...');
@@ -256,14 +311,3 @@ const t = useTranslations(lang);
     }
   }
 </script>
-
-<style>
-  @keyframes eyefloat {
-    0%   { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-52px); }
-  }
-  @keyframes eyepoof {
-    0%   { transform: scale(0.2); opacity: 0.85; }
-    100% { transform: scale(2.6); opacity: 0; }
-  }
-</style>
