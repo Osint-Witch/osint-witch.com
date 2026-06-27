@@ -18,7 +18,12 @@ const blogHref = localizedPath(lang, 'blog');
 <header class="nav">
   <div class="nav-inner">
     <a class="brand" href={homeHref} aria-label="OSINT W1tch">
-      <span class="brand-badge">⛤</span>
+      <span class="brand-badge">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none">
+          <circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M12,3 L17.29,19.28 L3.44,9.22 L20.56,9.22 L6.71,19.28 Z" fill="currentColor" fill-rule="evenodd"/>
+        </svg>
+      </span>
       <span class="brand-text">osint-witch<span>.com</span></span>
     </a>
 
