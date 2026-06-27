@@ -1,33 +1,31 @@
 {
   "available": "open to chats & collaborations",
   "name": "OSINT W1tch",
-  "role": "Cyber Threat Intelligence Team Lead @ FinTech",
+  "role": "Cyber Threat Intelligence Team Lead",
   "tagline": "#InfoHunter",
   "location": "Brazil",
   "years": "3+ years in CTI · 5+ in security",
-  "downloadLabel": "Resume (PDF)",
-  "cvFile": "/cv/cv-en.pdf",
   "heroBlurb": "Threat Intelligence analyst experienced in leading teams, building and optimizing processes, fraud and digital-risk incident response, Takedown, and running tactical, operational and strategic operations.",
   "about": [
     "Threat Intelligence analyst experienced in leading teams, building and optimizing processes, responding to fraud and digital-risk incidents, and taking down corporate or fraudulent online content (Takedown).",
-    "I run tactical, operational and strategic CTI operations across the Instituição Financeira group — from OSINT hunting to defining team strategy and maturity."
+    "I run tactical, operational and strategic CTI operations at a major financial institution — from OSINT hunting to defining team strategy and maturity."
   ],
   "experience": [
     {
       "period": "Sep/2023 — now",
       "role": "Cyber Threat Intelligence Team Lead",
-      "org": "Empresa de Tecnologia Financeira",
+      "org": "Financial Technology Company",
       "bullets": [
         "Built and optimized CTI processes; defined team strategy and maturity.",
         "Digital-risk and fraud incident response, threat mitigation and Takedown of fraudulent content.",
         "OSINT hunting and monitoring rules across surface, deep and dark web; threat hunting planning (TaHiTI).",
-        "Trained analysts and integrated with SOC N1/N2, Anti-fraud and Red Team. Serves FinTech, subsidiária and beneficiária."
+        "Trained analysts and integrated with SOC N1/N2, Anti-fraud and Red Team."
       ]
     },
     {
       "period": "Sep/2022 — Sep/2023",
       "role": "Cybersecurity Analyst · SOC N2",
-      "org": "Empresa de Tecnologia Financeira",
+      "org": "Financial Technology Company",
       "bullets": [
         "Incident response and alert monitoring (SIEM, EDR, Antivirus).",
         "Internal threat hunting and log analysis with KQL (Kusto Query Language).",
@@ -37,17 +35,17 @@
     {
       "period": "May/2022 — Sep/2022",
       "role": "SOC N2 · N3 Forensics · Security Module",
-      "org": "Instituição Financeira",
+      "org": "Financial Institution",
       "bullets": [
         "Phishing and fraud analysis, takedown support (N2).",
         "Digital forensics, log correlation, timeline reconstruction and TTP mapping to MITRE ATT&CK (N3).",
-        "Worked with the security module (módulo de segurança proprietário) and improved detection rules."
+        "Worked with security module and improved detection rules."
       ]
     },
     {
       "period": "Jan/2022 — May/2022",
       "role": "Red Team · Cyber & Fraud Prevention Unit",
-      "org": "Instituição Financeira",
+      "org": "Financial Institution",
       "bullets": [
         "Penetration-testing support: reconnaissance, vulnerability analysis and technical reporting.",
         "Continuous learning in offensive security techniques."
@@ -63,15 +61,14 @@
   "certs": [
     { "kind": "CERT", "name": "Certified Threat Intelligence & Governance Analyst (CTIGA)", "issuer": "Certification" },
     { "kind": "CERT", "name": "Trellix Protect Plus EDR for Endpoint", "issuer": "Trellix" },
-    { "kind": "DEGREE", "name": "Tech. Degree in Information Security", "issuer": "Universidade · 2021–2023" },
+    { "kind": "DEGREE", "name": "Tech. Degree in Information Security", "issuer": "2021–2023" },
     { "kind": "CERT", "name": "Introduction to Cybersecurity", "issuer": "Learning Path" },
     { "kind": "CERT", "name": "Computer Networks Foundations", "issuer": "Learning Path" },
-    { "kind": "DEGREE", "name": "Tech. Degree in HR Management", "issuer": "Faculdade · 2014–2016" }
+    { "kind": "DEGREE", "name": "Tech. Degree in HR Management", "issuer": "2014–2016" }
   ],
   "contactTitle": "Let's talk threat intel?",
   "contactBlurb": "Open to collaborations and chats about CTI, threat hunting and OSINT.",
   "contacts": [
-    { "icon": "✉", "label": "hello@osint-witch.com", "href": "mailto:hello@osint-witch.com" },
-    { "icon": "in", "label": "osint-witch.com", "href": "https://osint-witch.com" }
+    { "icon": "✉", "label": "hello@osint-witch.com", "href": "mailto:hello@osint-witch.com" }
   ]
 }
