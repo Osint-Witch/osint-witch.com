@@ -5,24 +5,22 @@ import { getPosts, getPost, hasVersion, readingMinutes } from '../../lib/posts';
 import { localizedPath } from '../../i18n/ui';
 import { render } from 'astro:content';
 
-// Gera uma pagina por post PT (rota dinamica via getCollection -> getStaticPaths)
 export async function getStaticPaths() {
-  const posts = await getPosts('pt');
+  const posts = await getPosts('en');
   return posts.map((p) => ({ params: { slug: p.data.slug } }));
 }
 
-const lang = 'pt' as const;
+const lang = 'en' as const;
 const slug = Astro.params.slug!;
 const post = await getPost(lang, slug);
-if (!post) throw new Error(`Post PT não encontrado: ${slug}`);
+if (!post) throw new Error(`EN post not found: ${slug}`);
 
 const { Content } = await render(post);
 const minutes = readingMinutes(post.body);
 
-// Slug compartilhado: o toggle leva ao mesmo write-up em EN se existir.
-const enExists = await hasVersion(post.data.slug, 'en');
-const ptHref = localizedPath('pt', `blog/${post.data.slug}`);
-const enHref = enExists ? localizedPath('en', `blog/${post.data.slug}`) : null;
+const ptExists = await hasVersion(post.data.slug, 'pt');
+const ptHref = ptExists ? localizedPath('pt', `blog/${post.data.slug}`) : null;
+const enHref = localizedPath('en', `blog/${post.data.slug}`);
 ---
 
 <Base

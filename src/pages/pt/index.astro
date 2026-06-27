@@ -1,21 +1,21 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Resume from '../../components/Resume.astro';
-import cv from '../../data/cv.en.json';
+import cv from '../../data/cv.pt.json';
 import { localizedPath } from '../../i18n/ui';
 import { getPosts, getTags } from '../../lib/posts';
 
-const posts = await getPosts('en');
-const tags = await getTags('en');
+const posts = await getPosts('pt');
+const tags = await getTags('pt');
 ---
 
 <Base
-  lang="en"
+  lang="pt"
   active="home"
   title="OSINT W1tch · CTI Analyst"
   description={cv.heroBlurb}
   ptHref={localizedPath('pt', '')}
   enHref={localizedPath('en', '')}
 >
-  <Resume lang="en" cv={cv} blogHref={localizedPath('en', 'blog')} posts={posts} tags={tags} />
+  <Resume lang="pt" cv={cv} blogHref={localizedPath('pt', 'blog')} posts={posts} tags={tags} />
 </Base>
